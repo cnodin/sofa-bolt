@@ -16,19 +16,6 @@
  */
 package com.alipay.remoting.rpc.timeout;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.remoting.Connection;
 import com.alipay.remoting.ConnectionEventType;
 import com.alipay.remoting.InvokeCallback;
@@ -36,53 +23,59 @@ import com.alipay.remoting.exception.RemotingException;
 import com.alipay.remoting.rpc.RpcClient;
 import com.alipay.remoting.rpc.RpcResponseFuture;
 import com.alipay.remoting.rpc.RpcServer;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.DISCONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
-import com.alipay.remoting.rpc.common.SimpleClientUserProcessor;
-import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
+import com.alipay.remoting.rpc.common.*;
 import com.alipay.remoting.rpc.exception.InvokeTimeoutException;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * server process timeout test (timeout check in io thread)
- * 
+ * <p>
  * if already timeout waiting in work queue, then discard this request and return timeout exception.
  * Oneway will not do this.
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: ServerTimeoutTest.java, v 0.1 Jan 22, 2016 2:59:09 PM xiaomin.cxm Exp $
  */
 public class ServerTimeoutTest {
-    static Logger             logger                    = LoggerFactory
-                                                            .getLogger(ServerTimeoutTest.class);
+    static Logger logger = LoggerFactory
+            .getLogger(ServerTimeoutTest.class);
 
-    BoltServer                server;
-    RpcClient                 client;
+    BoltServer server;
+    RpcClient client;
 
-    int                       port                      = PortScan.select();
-    String                    ip                        = "127.0.0.1";
-    String                    addr                      = "127.0.0.1:" + port;
+    int port = PortScan.select();
+    String ip = "127.0.0.1";
+    String addr = "127.0.0.1:" + port;
 
-    int                       invokeTimes               = 5;
-    int                       max_timeout               = 500;
+    int invokeTimes = 5;
+    int max_timeout = 500;
 
-    int                       coreThread                = 1;
-    int                       maxThread                 = 1;
-    int                       workQueue                 = 1;
-    int                       concurrent                = maxThread + workQueue;
+    int coreThread = 1;
+    int maxThread = 1;
+    int workQueue = 1;
+    int concurrent = maxThread + workQueue;
 
-    SimpleServerUserProcessor serverUserProcessor       = new SimpleServerUserProcessor(
-                                                            max_timeout, coreThread, maxThread, 60,
-                                                            workQueue);
-    SimpleClientUserProcessor clientUserProcessor       = new SimpleClientUserProcessor(
-                                                            max_timeout, coreThread, maxThread, 60,
-                                                            workQueue);
-    CONNECTEventProcessor     clientConnectProcessor    = new CONNECTEventProcessor();
-    CONNECTEventProcessor     serverConnectProcessor    = new CONNECTEventProcessor();
-    DISCONNECTEventProcessor  clientDisConnectProcessor = new DISCONNECTEventProcessor();
-    DISCONNECTEventProcessor  serverDisConnectProcessor = new DISCONNECTEventProcessor();
+    SimpleServerUserProcessor serverUserProcessor = new SimpleServerUserProcessor(
+            max_timeout, coreThread, maxThread, 60,
+            workQueue);
+    SimpleClientUserProcessor clientUserProcessor = new SimpleClientUserProcessor(
+            max_timeout, coreThread, maxThread, 60,
+            workQueue);
+    CONNECTEventProcessor clientConnectProcessor = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
+    DISCONNECTEventProcessor clientDisConnectProcessor = new DISCONNECTEventProcessor();
+    DISCONNECTEventProcessor serverDisConnectProcessor = new DISCONNECTEventProcessor();
 
     @Before
     public void init() {
@@ -131,7 +124,7 @@ public class ServerTimeoutTest {
         }
 
         Assert.assertEquals(2,
-            serverUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.ONEWAY));
+                serverUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.ONEWAY));
     }
 
     /**
@@ -154,7 +147,7 @@ public class ServerTimeoutTest {
         }
 
         Assert.assertEquals(2,
-            clientUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.ONEWAY));
+                clientUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.ONEWAY));
     }
 
     /**
@@ -162,7 +155,7 @@ public class ServerTimeoutTest {
      */
     @Test
     public void testSync() {
-        final int timeout[] = { max_timeout / 2, max_timeout / 3 };
+        final int timeout[] = {max_timeout / 2, max_timeout / 3};
         for (int i = 0; i <= 1; ++i) {
             final int j = i;
             new Thread() {
@@ -178,7 +171,7 @@ public class ServerTimeoutTest {
             logger.error("", e);
         }
         Assert.assertEquals(1,
-            serverUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.SYNC));
+                serverUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.SYNC));
     }
 
     /**
@@ -186,7 +179,7 @@ public class ServerTimeoutTest {
      */
     @Test
     public void testServerSync() {
-        final int timeout[] = { max_timeout / 2, max_timeout / 3 };
+        final int timeout[] = {max_timeout / 2, max_timeout / 3};
         for (int i = 0; i <= 1; ++i) {
             final int j = i;
             new Thread() {
@@ -202,7 +195,7 @@ public class ServerTimeoutTest {
             logger.error("", e);
         }
         Assert.assertEquals(1,
-            clientUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.SYNC));
+                clientUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.SYNC));
     }
 
     /**
@@ -210,7 +203,7 @@ public class ServerTimeoutTest {
      */
     @Test
     public void testFuture() {
-        final int timeout[] = { max_timeout / 2, max_timeout / 3 };
+        final int timeout[] = {max_timeout / 2, max_timeout / 3};
         for (int i = 0; i <= 1; ++i) {
             final int j = i;
             new Thread() {
@@ -226,7 +219,7 @@ public class ServerTimeoutTest {
             logger.error("", e);
         }
         Assert.assertEquals(1,
-            serverUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.FUTURE));
+                serverUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.FUTURE));
     }
 
     /**
@@ -234,7 +227,7 @@ public class ServerTimeoutTest {
      */
     @Test
     public void testServerFuture() {
-        final int timeout[] = { max_timeout / 2, max_timeout / 3 };
+        final int timeout[] = {max_timeout / 2, max_timeout / 3};
         for (int i = 0; i <= 1; ++i) {
             final int j = i;
             new Thread() {
@@ -250,7 +243,7 @@ public class ServerTimeoutTest {
             logger.error("", e);
         }
         Assert.assertEquals(1,
-            clientUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.FUTURE));
+                clientUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.FUTURE));
     }
 
     /**
@@ -258,7 +251,7 @@ public class ServerTimeoutTest {
      */
     @Test
     public void testCallBack() {
-        final int timeout[] = { max_timeout / 2, max_timeout / 3 };
+        final int timeout[] = {max_timeout / 2, max_timeout / 3};
         for (int i = 0; i <= 1; ++i) {
             final int j = i;
             new Thread() {
@@ -274,7 +267,7 @@ public class ServerTimeoutTest {
             logger.error("", e);
         }
         Assert.assertEquals(1,
-            serverUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.CALLBACK));
+                serverUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.CALLBACK));
     }
 
     /**
@@ -282,7 +275,7 @@ public class ServerTimeoutTest {
      */
     @Test
     public void testServerCallBack() {
-        final int timeout[] = { max_timeout / 2, max_timeout / 3 };
+        final int timeout[] = {max_timeout / 2, max_timeout / 3};
         for (int i = 0; i <= 1; ++i) {
             final int j = i;
             new Thread() {
@@ -298,7 +291,7 @@ public class ServerTimeoutTest {
             logger.error("", e);
         }
         Assert.assertEquals(1,
-            clientUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.CALLBACK));
+                clientUserProcessor.getInvokeTimesEachCallType(RequestBody.InvokeType.CALLBACK));
     }
 
     // ~~~ server invoke test methods
@@ -343,7 +336,7 @@ public class ServerTimeoutTest {
             Assert.assertNull(obj);
         } catch (RemotingException e) {
             logger.error("Other RemotingException but RpcServerTimeoutException occurred in sync",
-                e);
+                    e);
             Assert.fail("Should not reach here!");
         } catch (InterruptedException e) {
             logger.error("InterruptedException in sync", e);
@@ -370,7 +363,7 @@ public class ServerTimeoutTest {
             Assert.assertNull(obj);
         } catch (RemotingException e) {
             logger.error("Other RemotingException but RpcServerTimeoutException occurred in sync",
-                e);
+                    e);
             Assert.fail("Should not reach here!");
         } catch (InterruptedException e) {
             logger.error("InterruptedException in sync", e);
@@ -438,7 +431,7 @@ public class ServerTimeoutTest {
 
         } catch (RemotingException e) {
             logger.error("Other RemotingException but RpcServerTimeoutException occurred in sync",
-                e);
+                    e);
             Assert.fail("Should not reach here!");
         } catch (InterruptedException e) {
             logger.error("InterruptedException but RpcServerTimeoutException occurred in sync", e);

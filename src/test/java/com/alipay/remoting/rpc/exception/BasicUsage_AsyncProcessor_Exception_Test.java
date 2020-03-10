@@ -16,12 +16,14 @@
  */
 package com.alipay.remoting.rpc.exception;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
+import com.alipay.remoting.Connection;
+import com.alipay.remoting.ConnectionEventType;
+import com.alipay.remoting.InvokeCallback;
+import com.alipay.remoting.exception.RemotingException;
+import com.alipay.remoting.rpc.RpcClient;
+import com.alipay.remoting.rpc.RpcResponseFuture;
+import com.alipay.remoting.rpc.common.*;
+import com.alipay.remoting.util.RemotingUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,44 +31,35 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alipay.remoting.Connection;
-import com.alipay.remoting.ConnectionEventType;
-import com.alipay.remoting.InvokeCallback;
-import com.alipay.remoting.exception.RemotingException;
-import com.alipay.remoting.rpc.RpcClient;
-import com.alipay.remoting.rpc.RpcResponseFuture;
-import com.alipay.remoting.rpc.common.AsyncClientUserProcessor;
-import com.alipay.remoting.rpc.common.AsyncServerUserProcessor;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.DISCONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
-import com.alipay.remoting.util.RemotingUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * test async send back exception
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: BasicUsageTest.java, v 0.1 Apr 6, 2016 8:58:36 PM xiaomin.cxm Exp $
  */
 public class BasicUsage_AsyncProcessor_Exception_Test {
-    static Logger            logger                    = LoggerFactory
-                                                           .getLogger(BasicUsage_AsyncProcessor_Exception_Test.class);
+    static Logger logger = LoggerFactory
+            .getLogger(BasicUsage_AsyncProcessor_Exception_Test.class);
 
-    BoltServer               server;
-    RpcClient                client;
+    BoltServer server;
+    RpcClient client;
 
-    int                      port                      = PortScan.select();
-    String                   ip                        = "127.0.0.1";
-    String                   addr                      = "127.0.0.1:" + port;
+    int port = PortScan.select();
+    String ip = "127.0.0.1";
+    String addr = "127.0.0.1:" + port;
 
-    int                      invokeTimes               = 5;
+    int invokeTimes = 5;
 
-    AsyncServerUserProcessor serverUserProcessor       = new AsyncServerUserProcessor(true, false);
-    AsyncClientUserProcessor clientUserProcessor       = new AsyncClientUserProcessor(true, false);
-    CONNECTEventProcessor    clientConnectProcessor    = new CONNECTEventProcessor();
-    CONNECTEventProcessor    serverConnectProcessor    = new CONNECTEventProcessor();
+    AsyncServerUserProcessor serverUserProcessor = new AsyncServerUserProcessor(true, false);
+    AsyncClientUserProcessor clientUserProcessor = new AsyncClientUserProcessor(true, false);
+    CONNECTEventProcessor clientConnectProcessor = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
     DISCONNECTEventProcessor clientDisConnectProcessor = new DISCONNECTEventProcessor();
     DISCONNECTEventProcessor serverDisConnectProcessor = new DISCONNECTEventProcessor();
 
@@ -212,7 +205,7 @@ public class BasicUsage_AsyncProcessor_Exception_Test {
                 Assert.fail("No result! Maybe exception caught!");
             }
             Assert.assertEquals(rets.get(0).getClass().getName(),
-                "java.lang.IllegalArgumentException");
+                    "java.lang.IllegalArgumentException");
             rets.clear();
         }
 
@@ -231,7 +224,7 @@ public class BasicUsage_AsyncProcessor_Exception_Test {
             try {
                 serverres = (Exception) client.invokeSync(clientConn, req1, 1000);
                 Assert.assertEquals(serverres.getClass().getName(),
-                    "java.lang.IllegalArgumentException");
+                        "java.lang.IllegalArgumentException");
             } catch (RemotingException e) {
                 Assert.fail("Should not reach here!");
             }
@@ -243,7 +236,7 @@ public class BasicUsage_AsyncProcessor_Exception_Test {
             try {
                 clientres = (Exception) server.getRpcServer().invokeSync(serverConn, req, 1000);
                 Assert.assertEquals(clientres.getClass().getName(),
-                    "java.lang.IllegalArgumentException");
+                        "java.lang.IllegalArgumentException");
             } catch (RemotingException e) {
                 Assert.fail("Should not reach here!");
             }
@@ -268,7 +261,7 @@ public class BasicUsage_AsyncProcessor_Exception_Test {
             try {
                 serverres = (Exception) client.invokeSync(clientConn, req1, 1000);
                 Assert.assertEquals(serverres.getClass().getName(),
-                    "java.lang.IllegalArgumentException");
+                        "java.lang.IllegalArgumentException");
             } catch (RemotingException e) {
                 Assert.fail("Should not reach here!");
             }
@@ -283,7 +276,7 @@ public class BasicUsage_AsyncProcessor_Exception_Test {
             try {
                 clientres = (Exception) server.getRpcServer().invokeSync(remoteAddr, req, 1000);
                 Assert.assertEquals(clientres.getClass().getName(),
-                    "java.lang.IllegalArgumentException");
+                        "java.lang.IllegalArgumentException");
             } catch (RemotingException e) {
                 Assert.fail("Should not reach here!");
             }

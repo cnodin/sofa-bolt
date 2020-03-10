@@ -22,15 +22,19 @@ import com.alipay.remoting.rpc.exception.InvokeTimeoutException;
 
 /**
  * The future for response.
- * 
+ *
  * @author jiangping
  * @version $Id: ResponseFuture.java, v 0.1 2015-10-3 PM5:07:05 tao Exp $
  */
 public class RpcResponseFuture {
-    /** rpc server address */
-    private String       addr;
+    /**
+     * rpc server address
+     */
+    private String addr;
 
-    /** rpc server port */
+    /**
+     * rpc server port
+     */
     private InvokeFuture future;
 
     /**
@@ -50,12 +54,12 @@ public class RpcResponseFuture {
 
     /**
      * get result with timeout specified
-     * 
+     * <p>
      * if request done, resolve normal responseObject
      * if request not done, throws InvokeTimeoutException
      */
     public Object get(int timeoutMillis) throws InvokeTimeoutException, RemotingException,
-                                        InterruptedException {
+            InterruptedException {
         this.future.waitResponse(timeoutMillis);
         if (!isDone()) {
             throw new InvokeTimeoutException("Future get result timeout!");

@@ -18,16 +18,16 @@ package com.alipay.remoting;
 
 /**
  * Remoting address parser
- * 
+ * <p>
  * Implement this to generate a {@link Url}
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: RemotingAddressParser.java, v 0.1 Mar 11, 2016 5:56:55 PM xiaomin.cxm Exp $
  */
 public interface RemotingAddressParser {
     /**
      * Parse a simple string url to get {@link Url}
-     * 
+     *
      * @param url
      * @return parsed {@link Url}
      */
@@ -35,7 +35,7 @@ public interface RemotingAddressParser {
 
     /**
      * Parse a simple string url to get a unique key of a certain address
-     * 
+     *
      * @param url
      * @return
      */
@@ -43,7 +43,7 @@ public interface RemotingAddressParser {
 
     /**
      * Parse to get property value according to specified property key
-     * 
+     *
      * @param url
      * @param propKey
      * @return propValue
@@ -52,20 +52,28 @@ public interface RemotingAddressParser {
 
     /**
      * Initialize {@link Url} arguments
-     * 
+     *
      * @param url
      */
     void initUrlArgs(Url url);
 
-    /** symbol : */
+    /**
+     * symbol :
+     */
     char COLON = ':';
 
-    /** symbol = */
+    /**
+     * symbol =
+     */
     char EQUAL = '=';
 
-    /** symbol & */
-    char AND   = '&';
+    /**
+     * symbol &
+     */
+    char AND = '&';
 
-    /** symbol ? */
-    char QUES  = '?';
+    /**
+     * symbol ?
+     */
+    char QUES = '?';
 }

@@ -27,13 +27,15 @@ import java.util.BitSet;
 public class ProtocolSwitch implements Switch {
 
     // switch index
-    public static final int     CRC_SWITCH_INDEX         = 0x000;
+    public static final int CRC_SWITCH_INDEX = 0x000;
 
     // default value
     public static final boolean CRC_SWITCH_DEFAULT_VALUE = true;
 
-    /** protocol switches */
-    private BitSet              bs                       = new BitSet();
+    /**
+     * protocol switches
+     */
+    private BitSet bs = new BitSet();
 
     // ~~~ public methods
 
@@ -74,7 +76,7 @@ public class ProtocolSwitch implements Switch {
 
     /**
      * create an instance of {@link ProtocolSwitch} according to byte value
-     * 
+     *
      * @param value
      * @return ProtocolSwitchStatus with initialized bit set.
      */
@@ -100,6 +102,7 @@ public class ProtocolSwitch implements Switch {
 
     /**
      * from bit set to byte
+     *
      * @param bs
      * @return byte represent the bit set
      */
@@ -112,23 +115,24 @@ public class ProtocolSwitch implements Switch {
         }
         if (bs.length() > 7) {
             throw new IllegalArgumentException("The byte value " + value
-                                               + " generated according to bit set " + bs
-                                               + " is out of range, should be limited between ["
-                                               + Byte.MIN_VALUE + "] to [" + Byte.MAX_VALUE + "]");
+                    + " generated according to bit set " + bs
+                    + " is out of range, should be limited between ["
+                    + Byte.MIN_VALUE + "] to [" + Byte.MAX_VALUE + "]");
         }
         return (byte) value;
     }
 
     /**
      * from byte to bit set
+     *
      * @param value
      * @return bit set represent the byte
      */
     public static BitSet toBitSet(int value) {
         if (value > Byte.MAX_VALUE || value < Byte.MIN_VALUE) {
             throw new IllegalArgumentException(
-                "The value " + value + " is out of byte range, should be limited between ["
-                        + Byte.MIN_VALUE + "] to [" + Byte.MAX_VALUE + "]");
+                    "The value " + value + " is out of byte range, should be limited between ["
+                            + Byte.MIN_VALUE + "] to [" + Byte.MAX_VALUE + "]");
         }
         BitSet bs = new BitSet();
         int index = 0;

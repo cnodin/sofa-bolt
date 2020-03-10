@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Concurrent hash set.
- * 
+ *
  * @author yunliang.shi
  * @version $Id: ConcurrentHashSet.java, v 0.1 Mar 11, 2016 3:40:41 PM yunliang.shi Exp $
  */
@@ -39,6 +39,7 @@ public class ConcurrentHashSet<E> extends AbstractSet<E> {
 
     /**
      * return the size of the map
+     *
      * @see java.util.AbstractCollection#size()
      */
     @Override
@@ -47,7 +48,6 @@ public class ConcurrentHashSet<E> extends AbstractSet<E> {
     }
 
     /**
-     * 
      * @see java.util.AbstractCollection#contains(java.lang.Object)
      */
     @Override
@@ -56,7 +56,6 @@ public class ConcurrentHashSet<E> extends AbstractSet<E> {
     }
 
     /**
-     * 
      * @see java.util.AbstractCollection#iterator()
      */
     @Override
@@ -66,6 +65,7 @@ public class ConcurrentHashSet<E> extends AbstractSet<E> {
 
     /**
      * add an obj to set, if exist, return false, else return true
+     *
      * @see java.util.AbstractCollection#add(java.lang.Object)
      */
     @Override
@@ -74,7 +74,6 @@ public class ConcurrentHashSet<E> extends AbstractSet<E> {
     }
 
     /**
-     * 
      * @see java.util.AbstractCollection#remove(java.lang.Object)
      */
     @Override
@@ -84,6 +83,7 @@ public class ConcurrentHashSet<E> extends AbstractSet<E> {
 
     /**
      * clear the set
+     *
      * @see java.util.AbstractCollection#clear()
      */
     @Override

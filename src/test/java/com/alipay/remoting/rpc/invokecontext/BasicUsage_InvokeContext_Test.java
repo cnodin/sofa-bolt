@@ -16,19 +16,6 @@
  */
 package com.alipay.remoting.rpc.invokecontext;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.remoting.Connection;
 import com.alipay.remoting.ConnectionEventType;
 import com.alipay.remoting.InvokeCallback;
@@ -36,41 +23,47 @@ import com.alipay.remoting.InvokeContext;
 import com.alipay.remoting.exception.RemotingException;
 import com.alipay.remoting.rpc.RpcClient;
 import com.alipay.remoting.rpc.RpcResponseFuture;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.DISCONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
-import com.alipay.remoting.rpc.common.SimpleClientUserProcessor;
-import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
+import com.alipay.remoting.rpc.common.*;
 import com.alipay.remoting.util.RemotingUtil;
 import com.alipay.remoting.util.TraceLogUtil;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * basic usage test with invoke context
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: BasicUsage_InvokeContext_Test.java, v 0.1 Apr 6, 2016 8:58:36 PM xiaomin.cxm Exp $
  */
 public class BasicUsage_InvokeContext_Test {
-    static Logger             logger                    = LoggerFactory
-                                                            .getLogger(BasicUsage_InvokeContext_Test.class);
+    static Logger logger = LoggerFactory
+            .getLogger(BasicUsage_InvokeContext_Test.class);
 
-    BoltServer                server;
-    RpcClient                 client;
+    BoltServer server;
+    RpcClient client;
 
-    int                       port                      = PortScan.select();
-    String                    ip                        = "127.0.0.1";
-    String                    addr                      = "127.0.0.1:" + port;
+    int port = PortScan.select();
+    String ip = "127.0.0.1";
+    String addr = "127.0.0.1:" + port;
 
-    int                       invokeTimes               = 5;
+    int invokeTimes = 5;
 
-    SimpleServerUserProcessor serverUserProcessor       = new SimpleServerUserProcessor();
-    SimpleClientUserProcessor clientUserProcessor       = new SimpleClientUserProcessor();
-    CONNECTEventProcessor     clientConnectProcessor    = new CONNECTEventProcessor();
-    CONNECTEventProcessor     serverConnectProcessor    = new CONNECTEventProcessor();
-    DISCONNECTEventProcessor  clientDisConnectProcessor = new DISCONNECTEventProcessor();
-    DISCONNECTEventProcessor  serverDisConnectProcessor = new DISCONNECTEventProcessor();
+    SimpleServerUserProcessor serverUserProcessor = new SimpleServerUserProcessor();
+    SimpleClientUserProcessor clientUserProcessor = new SimpleClientUserProcessor();
+    CONNECTEventProcessor clientConnectProcessor = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
+    DISCONNECTEventProcessor clientDisConnectProcessor = new DISCONNECTEventProcessor();
+    DISCONNECTEventProcessor serverDisConnectProcessor = new DISCONNECTEventProcessor();
 
     @Before
     public void init() {
@@ -110,7 +103,7 @@ public class BasicUsage_InvokeContext_Test {
                 Assert.assertNotNull(invokeContext.get(InvokeContext.CLIENT_REMOTE_PORT));
                 Assert.assertNotNull(invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
                 logger.warn("CLIENT_CONN_CREATETIME:"
-                            + invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
+                        + invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
                 Thread.sleep(100);
             } catch (RemotingException e) {
                 String errMsg = "RemotingException caught in oneway!";
@@ -141,10 +134,10 @@ public class BasicUsage_InvokeContext_Test {
 
                 Assert.assertNotNull(invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
                 logger.warn("CLIENT_CONN_CREATETIME:"
-                            + invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
+                        + invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
 
                 TraceLogUtil.printConnectionTraceLog(logger, "0af4232214701387943901253",
-                    invokeContext);
+                        invokeContext);
             } catch (RemotingException e) {
                 String errMsg = "RemotingException caught in sync!";
                 logger.error(errMsg, e);
@@ -178,10 +171,10 @@ public class BasicUsage_InvokeContext_Test {
 
                 Assert.assertNotNull(invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
                 logger.warn("CLIENT_CONN_CREATETIME:"
-                            + invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
+                        + invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
 
                 TraceLogUtil.printConnectionTraceLog(logger, "0af4232214701387943901253",
-                    invokeContext);
+                        invokeContext);
             } catch (RemotingException e) {
                 String errMsg = "RemotingException caught in future!";
                 logger.error(errMsg, e);
@@ -255,10 +248,10 @@ public class BasicUsage_InvokeContext_Test {
 
             Assert.assertNotNull(invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
             logger.warn("CLIENT_CONN_CREATETIME:"
-                        + invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
+                    + invokeContext.get(InvokeContext.CLIENT_CONN_CREATETIME));
 
             TraceLogUtil
-                .printConnectionTraceLog(logger, "0af4232214701387943901253", invokeContext);
+                    .printConnectionTraceLog(logger, "0af4232214701387943901253", invokeContext);
         }
 
         Assert.assertTrue(serverConnectProcessor.isConnected());
@@ -281,7 +274,7 @@ public class BasicUsage_InvokeContext_Test {
             invokeContext.clear();
             RequestBody req = new RequestBody(1, RequestBody.DEFAULT_SERVER_STR);
             String clientres = (String) server.getRpcServer().invokeSync(serverConn, req,
-                invokeContext, 1000);
+                    invokeContext, 1000);
             Assert.assertEquals(clientres, RequestBody.DEFAULT_CLIENT_RETURN_STR);
 
             Assert.assertEquals("127.0.0.1", invokeContext.get(InvokeContext.SERVER_LOCAL_IP));
@@ -316,7 +309,7 @@ public class BasicUsage_InvokeContext_Test {
             String remoteAddr = serverUserProcessor.getRemoteAddr();
             RequestBody req = new RequestBody(1, RequestBody.DEFAULT_SERVER_STR);
             String clientres = (String) server.getRpcServer().invokeSync(remoteAddr, req,
-                invokeContext, 1000);
+                    invokeContext, 1000);
             Assert.assertEquals(clientres, RequestBody.DEFAULT_CLIENT_RETURN_STR);
 
             Assert.assertEquals("127.0.0.1", invokeContext.get(InvokeContext.SERVER_LOCAL_IP));

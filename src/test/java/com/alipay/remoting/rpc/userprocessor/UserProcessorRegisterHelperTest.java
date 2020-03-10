@@ -16,19 +16,17 @@
  */
 package com.alipay.remoting.rpc.userprocessor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
+import com.alipay.remoting.BizContext;
+import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
 import com.alipay.remoting.rpc.protocol.*;
+import com.alipay.remoting.rpc.userprocessor.multiinterestprocessor.SimpleServerMultiInterestUserProcessor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alipay.remoting.BizContext;
-import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
-import com.alipay.remoting.rpc.protocol.SyncMultiInterestUserProcessor;
-import com.alipay.remoting.rpc.userprocessor.multiinterestprocessor.SimpleServerMultiInterestUserProcessor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @antuor muyun.cyt (muyun.cyt@antfin.com)  2018/7/5   4:51 PM
@@ -53,9 +51,9 @@ public class UserProcessorRegisterHelperTest {
     public void testRegisterMultiInterestUserProcessor() {
         UserProcessor multiInterestUserProcessor = new SimpleServerMultiInterestUserProcessor();
         UserProcessorRegisterHelper.registerUserProcessor(multiInterestUserProcessor,
-            userProcessors);
+                userProcessors);
         Assert.assertEquals(((SimpleServerMultiInterestUserProcessor) multiInterestUserProcessor)
-            .multiInterest().size(), userProcessors.size());
+                .multiInterest().size(), userProcessors.size());
     }
 
     @Test
@@ -110,7 +108,7 @@ public class UserProcessorRegisterHelperTest {
         try {
             UserProcessorRegisterHelper.registerUserProcessor(userProcessor, userProcessors);
             UserProcessorRegisterHelper
-                .registerUserProcessor(repeatedUserProcessor, userProcessors);
+                    .registerUserProcessor(repeatedUserProcessor, userProcessors);
         } catch (RuntimeException e) {
         }
 

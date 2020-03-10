@@ -16,11 +16,14 @@
  */
 package com.alipay.remoting.rpc.timeout;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-
+import com.alipay.remoting.ConnectionEventType;
+import com.alipay.remoting.InvokeCallback;
+import com.alipay.remoting.exception.RemotingException;
+import com.alipay.remoting.rpc.BasicUsageTest;
+import com.alipay.remoting.rpc.RpcClient;
+import com.alipay.remoting.rpc.RpcResponseFuture;
+import com.alipay.remoting.rpc.common.*;
+import com.alipay.remoting.rpc.exception.InvokeTimeoutException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,48 +31,38 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alipay.remoting.ConnectionEventType;
-import com.alipay.remoting.InvokeCallback;
-import com.alipay.remoting.exception.RemotingException;
-import com.alipay.remoting.rpc.BasicUsageTest;
-import com.alipay.remoting.rpc.RpcClient;
-import com.alipay.remoting.rpc.RpcResponseFuture;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.DISCONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
-import com.alipay.remoting.rpc.common.SimpleClientUserProcessor;
-import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
-import com.alipay.remoting.rpc.exception.InvokeTimeoutException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
 
 /**
  * Timeout Test
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: TimeoutTest.java, v 0.1 Apr 8, 2016 4:31:10 PM xiaomin.cxm Exp $
  */
 public class TimeoutTest {
 
-    static Logger             logger                    = LoggerFactory
-                                                            .getLogger(BasicUsageTest.class);
+    static Logger logger = LoggerFactory
+            .getLogger(BasicUsageTest.class);
 
-    BoltServer                server;
-    RpcClient                 client;
+    BoltServer server;
+    RpcClient client;
 
-    int                       port                      = PortScan.select();
-    String                    ip                        = "127.0.0.1";
-    String                    addr                      = "127.0.0.1:" + port;
+    int port = PortScan.select();
+    String ip = "127.0.0.1";
+    String addr = "127.0.0.1:" + port;
 
-    int                       invokeTimes               = 5;
-    int                       timeout                   = 250;
+    int invokeTimes = 5;
+    int timeout = 250;
 
-    SimpleServerUserProcessor serverUserProcessor       = new SimpleServerUserProcessor(timeout * 2);
-    SimpleClientUserProcessor clientUserProcessor       = new SimpleClientUserProcessor();
-    CONNECTEventProcessor     clientConnectProcessor    = new CONNECTEventProcessor();
-    CONNECTEventProcessor     serverConnectProcessor    = new CONNECTEventProcessor();
-    DISCONNECTEventProcessor  clientDisConnectProcessor = new DISCONNECTEventProcessor();
-    DISCONNECTEventProcessor  serverDisConnectProcessor = new DISCONNECTEventProcessor();
+    SimpleServerUserProcessor serverUserProcessor = new SimpleServerUserProcessor(timeout * 2);
+    SimpleClientUserProcessor clientUserProcessor = new SimpleClientUserProcessor();
+    CONNECTEventProcessor clientConnectProcessor = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
+    DISCONNECTEventProcessor clientDisConnectProcessor = new DISCONNECTEventProcessor();
+    DISCONNECTEventProcessor serverDisConnectProcessor = new DISCONNECTEventProcessor();
 
     @Before
     public void init() {
@@ -145,7 +138,7 @@ public class TimeoutTest {
             Assert.assertNull(obj);
         } catch (RemotingException e) {
             logger
-                .error("Other RemotingException but InvokeTimeoutException occurred in future", e);
+                    .error("Other RemotingException but InvokeTimeoutException occurred in future", e);
             Assert.fail("Should not reach here!");
         } catch (InterruptedException e) {
             logger.error("InterruptedException in sync", e);
@@ -206,7 +199,7 @@ public class TimeoutTest {
 
         } catch (RemotingException e) {
             logger
-                .error("Other RemotingException but InvokeTimeoutException occurred in future", e);
+                    .error("Other RemotingException but InvokeTimeoutException occurred in future", e);
             Assert.fail("Should not reach here!");
         }
         latch.await();

@@ -16,11 +16,12 @@
  */
 package com.alipay.remoting.rpc.exception;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-
+import com.alipay.remoting.ConnectionEventType;
+import com.alipay.remoting.InvokeCallback;
+import com.alipay.remoting.exception.RemotingException;
+import com.alipay.remoting.rpc.RpcClient;
+import com.alipay.remoting.rpc.RpcResponseFuture;
+import com.alipay.remoting.rpc.common.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,19 +29,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alipay.remoting.ConnectionEventType;
-import com.alipay.remoting.InvokeCallback;
-import com.alipay.remoting.exception.RemotingException;
-import com.alipay.remoting.rpc.RpcClient;
-import com.alipay.remoting.rpc.RpcResponseFuture;
-import com.alipay.remoting.rpc.common.AsyncExceptionUserProcessor;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.ExceptionUserProcessor;
-import com.alipay.remoting.rpc.common.NullUserProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
-import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
 
 /**
  * exception test
@@ -49,21 +41,21 @@ import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
  * @version $Id: ExceptionTest.java, v 0.1 Apr 6, 2016 9:41:53 PM xiaomin.cxm Exp $
  */
 public class ExceptionTest {
-    static Logger logger      = LoggerFactory.getLogger(ExceptionTest.class);
+    static Logger logger = LoggerFactory.getLogger(ExceptionTest.class);
 
-    BoltServer    server;
-    RpcClient     client;
+    BoltServer server;
+    RpcClient client;
 
-    int           port        = PortScan.select();
-    String        addr        = "127.0.0.1:" + port;
-    int           invokeTimes = 5;
+    int port = PortScan.select();
+    String addr = "127.0.0.1:" + port;
+    int invokeTimes = 5;
 
     @Before
     public void init() {
         server = new BoltServer(port);
         server.start();
         server
-            .addConnectionEventProcessor(ConnectionEventType.CONNECT, new CONNECTEventProcessor());
+                .addConnectionEventProcessor(ConnectionEventType.CONNECT, new CONNECTEventProcessor());
         client = new RpcClient();
         client.init();
     }

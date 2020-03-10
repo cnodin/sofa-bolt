@@ -16,18 +16,11 @@
  */
 package com.alipay.remoting.inner.utiltest;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.alipay.remoting.config.Configs;
 import com.alipay.remoting.rpc.RpcClient;
+import org.junit.*;
 
 /**
- *
  * @author tsui
  * @version $Id: SwitchStatusTest.java, v 0.1 2017-08-03 17:25 tsui Exp $
  */

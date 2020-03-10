@@ -37,51 +37,51 @@ public interface BoltClient extends Configurable, LifeCycle {
     /**
      * One way invocation using a string address, address format example - 127.0.0.1:12200?key1=value1&key2=value2 <br>
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
-     *   <li>When do invocation, use the string address to find a available connection, if none then create one.</li>
-     *      <ul>
-     *        <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
-     *      </ul>
-     *   <li>You should use {@link #closeConnection(String addr)} to close it if you want.
-     *   </ol>
+     * tice:<br>
+     * <ol>
+     * <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
+     * <li>When do invocation, use the string address to find a available connection, if none then create one.</li>
+     *    <ul>
+     *      <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
+     *    </ul>
+     * <li>You should use {@link #closeConnection(String addr)} to close it if you want.
+     * </ol>
      *
      * @param address target address
      * @param request request
      */
     void oneway(final String address, final Object request) throws RemotingException,
-                                                           InterruptedException;
+            InterruptedException;
 
     /**
      * Oneway invocation with a {@link InvokeContext}, common api notice please see {@link #oneway(Connection, Object)}
      *
-     * @param address target address
-     * @param request request
+     * @param address       target address
+     * @param request       request
      * @param invokeContext invoke context
      */
     void oneway(final String address, final Object request, final InvokeContext invokeContext)
-                                                                                              throws RemotingException,
-                                                                                              InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * One way invocation using a parsed {@link Url} <br>
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
-     *   <li>When do invocation, use the parsed {@link Url} to find a available connection, if none then create one.</li>
-     *      <ul>
-     *        <li>You can use {@link Url#setConnectTimeout} to specify connection timeout, time unit is milliseconds.
-     *        <li>You can use {@link Url#setConnNum} to specify connection number for each ip and port.
-     *        <li>You can use {@link Url#setConnWarmup} to specify whether need warmup all connections for the first time you call this method.
-     *      </ul>
-     *   <li>You should use {@link #closeConnection(Url url)} to close it if you want.
-     *   </ol>
+     * tice:<br>
+     * <ol>
+     * <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
+     * <li>When do invocation, use the parsed {@link Url} to find a available connection, if none then create one.</li>
+     *    <ul>
+     *      <li>You can use {@link Url#setConnectTimeout} to specify connection timeout, time unit is milliseconds.
+     *      <li>You can use {@link Url#setConnNum} to specify connection number for each ip and port.
+     *      <li>You can use {@link Url#setConnWarmup} to specify whether need warmup all connections for the first time you call this method.
+     *    </ul>
+     * <li>You should use {@link #closeConnection(Url url)} to close it if you want.
+     * </ol>
      *
-     * @param url target url
+     * @param url     target url
      * @param request object
      */
     void oneway(final Url url, final Object request) throws RemotingException, InterruptedException;
@@ -89,21 +89,21 @@ public interface BoltClient extends Configurable, LifeCycle {
     /**
      * Oneway invocation with a {@link InvokeContext}, common api notice please see {@link #oneway(Url, Object)}
      *
-     * @param url url
-     * @param request request
+     * @param url           url
+     * @param request       request
      * @param invokeContext invoke context
      */
     void oneway(final Url url, final Object request, final InvokeContext invokeContext)
-                                                                                       throws RemotingException,
-                                                                                       InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * One way invocation using a {@link Connection} <br>
      * <p>
      * Notice:<br>
-     *   <b>DO NOT modify the request object concurrently when this method is called.</b>
+     * <b>DO NOT modify the request object concurrently when this method is called.</b>
      *
-     * @param conn target connection
+     * @param conn    target connection
      * @param request request
      */
     void oneway(final Connection conn, final Object request) throws RemotingException;
@@ -111,80 +111,80 @@ public interface BoltClient extends Configurable, LifeCycle {
     /**
      * Oneway invocation with a {@link InvokeContext}, common api notice please see {@link #oneway(Connection, Object)}
      *
-     * @param conn target connection
-     * @param request request
+     * @param conn          target connection
+     * @param request       request
      * @param invokeContext invoke context
      */
     void oneway(final Connection conn, final Object request, final InvokeContext invokeContext)
-                                                                                               throws RemotingException;
+            throws RemotingException;
 
     /**
      * Synchronous invocation using a string address, address format example - 127.0.0.1:12200?key1=value1&key2=value2 <br>
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
-     *   <li>When do invocation, use the string address to find a available connection, if none then create one.</li>
-     *      <ul>
-     *        <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
-     *      </ul>
-     *   <li>You should use {@link #closeConnection(String addr)} to close it if you want.
-     *   </ol>
+     * tice:<br>
+     * <ol>
+     * <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
+     * <li>When do invocation, use the string address to find a available connection, if none then create one.</li>
+     *    <ul>
+     *      <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
+     *    </ul>
+     * <li>You should use {@link #closeConnection(String addr)} to close it if you want.
+     * </ol>
      *
-     * @param address target address
-     * @param request request
+     * @param address       target address
+     * @param request       request
      * @param timeoutMillis timeout millisecond
      * @return result object
      */
     Object invokeSync(final String address, final Object request, final int timeoutMillis)
-                                                                                          throws RemotingException,
-                                                                                          InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Synchronous invocation with a {@link InvokeContext}, common api notice please see {@link #invokeSync(String, Object, int)}
      *
-     * @param address target address
-     * @param request request
+     * @param address       target address
+     * @param request       request
      * @param invokeContext invoke context
      * @param timeoutMillis timeout in millisecond
      * @return result object
      */
     Object invokeSync(final String address, final Object request,
                       final InvokeContext invokeContext, final int timeoutMillis)
-                                                                                 throws RemotingException,
-                                                                                 InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Synchronous invocation using a parsed {@link Url} <br>
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
-     *   <li>When do invocation, use the parsed {@link Url} to find a available connection, if none then create one.</li>
-     *      <ul>
-     *        <li>You can use {@link Url#setConnectTimeout} to specify connection timeout, time unit is milliseconds.
-     *        <li>You can use {@link Url#setConnNum} to specify connection number for each ip and port.
-     *        <li>You can use {@link Url#setConnWarmup} to specify whether need warmup all connections for the first time you call this method.
-     *      </ul>
-     *   <li>You should use {@link #closeConnection(Url url)} to close it if you want.
-     *   </ol>
+     * tice:<br>
+     * <ol>
+     * <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
+     * <li>When do invocation, use the parsed {@link Url} to find a available connection, if none then create one.</li>
+     *    <ul>
+     *      <li>You can use {@link Url#setConnectTimeout} to specify connection timeout, time unit is milliseconds.
+     *      <li>You can use {@link Url#setConnNum} to specify connection number for each ip and port.
+     *      <li>You can use {@link Url#setConnWarmup} to specify whether need warmup all connections for the first time you call this method.
+     *    </ul>
+     * <li>You should use {@link #closeConnection(Url url)} to close it if you want.
+     * </ol>
      *
-     * @param url target url
-     * @param request request
+     * @param url           target url
+     * @param request       request
      * @param timeoutMillis timeout in millisecond
      * @return Object
      */
     Object invokeSync(final Url url, final Object request, final int timeoutMillis)
-                                                                                   throws RemotingException,
-                                                                                   InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Synchronous invocation with a {@link InvokeContext}, common api notice please see {@link #invokeSync(Url, Object, int)}
      *
-     * @param url target url
-     * @param request request
+     * @param url           target url
+     * @param request       request
      * @param invokeContext invoke context
      * @param timeoutMillis timeout in millisecond
      * @return result object
@@ -196,118 +196,118 @@ public interface BoltClient extends Configurable, LifeCycle {
      * Synchronous invocation using a {@link Connection} <br>
      * <p>
      * Notice:<br>
-     *   <b>DO NOT modify the request object concurrently when this method is called.</b>
+     * <b>DO NOT modify the request object concurrently when this method is called.</b>
      *
-     * @param conn target connection
-     * @param request request
+     * @param conn          target connection
+     * @param request       request
      * @param timeoutMillis timeout in millisecond
      * @return Object
      */
     Object invokeSync(final Connection conn, final Object request, final int timeoutMillis)
-                                                                                           throws RemotingException,
-                                                                                           InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Synchronous invocation with a {@link InvokeContext}, common api notice please see {@link #invokeSync(Connection, Object, int)}
      *
-     * @param conn target connection
-     * @param request request
+     * @param conn          target connection
+     * @param request       request
      * @param invokeContext invoke context
      * @param timeoutMillis timeout in millis
      * @return Object
      */
     Object invokeSync(final Connection conn, final Object request,
                       final InvokeContext invokeContext, final int timeoutMillis)
-                                                                                 throws RemotingException,
-                                                                                 InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Future invocation using a string address, address format example - 127.0.0.1:12200?key1=value1&key2=value2 <br>
      * You can get result use the returned {@link RpcResponseFuture}.
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
-     *   <li>When do invocation, use the string address to find a available connection, if none then create one.</li>
-     *      <ul>
-     *        <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
-     *      </ul>
-     *   <li>You should use {@link #closeConnection(String addr)} to close it if you want.
-     *   </ol>
+     * tice:<br>
+     * <ol>
+     * <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
+     * <li>When do invocation, use the string address to find a available connection, if none then create one.</li>
+     *    <ul>
+     *      <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
+     *    </ul>
+     * <li>You should use {@link #closeConnection(String addr)} to close it if you want.
+     * </ol>
      *
-     * @param address target address
-     * @param request request
+     * @param address       target address
+     * @param request       request
      * @param timeoutMillis timeout in millisecond
      * @return RpcResponseFuture
      */
     RpcResponseFuture invokeWithFuture(final String address, final Object request,
                                        final int timeoutMillis) throws RemotingException,
-                                                               InterruptedException;
+            InterruptedException;
 
     /**
      * Future invocation with a {@link InvokeContext}, common api notice please see {@link #invokeWithFuture(String, Object, int)}
      *
-     * @param address target address
-     * @param request request
+     * @param address       target address
+     * @param request       request
      * @param invokeContext invoke context
      * @param timeoutMillis timeout in millisecond
      * @return RpcResponseFuture
      */
     RpcResponseFuture invokeWithFuture(final String address, final Object request,
                                        final InvokeContext invokeContext, final int timeoutMillis)
-                                                                                                  throws RemotingException,
-                                                                                                  InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Future invocation using a parsed {@link Url} <br>
      * You can get result use the returned {@link RpcResponseFuture}.
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
-     *   <li>When do invocation, use the parsed {@link Url} to find a available connection, if none then create one.</li>
-     *      <ul>
-     *        <li>You can use {@link Url#setConnectTimeout} to specify connection timeout, time unit is milliseconds.
-     *        <li>You can use {@link Url#setConnNum} to specify connection number for each ip and port.
-     *        <li>You can use {@link Url#setConnWarmup} to specify whether need warmup all connections for the first time you call this method.
-     *      </ul>
-     *   <li>You should use {@link #closeConnection(Url url)} to close it if you want.
-     *   </ol>
+     * tice:<br>
+     * <ol>
+     * <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
+     * <li>When do invocation, use the parsed {@link Url} to find a available connection, if none then create one.</li>
+     *    <ul>
+     *      <li>You can use {@link Url#setConnectTimeout} to specify connection timeout, time unit is milliseconds.
+     *      <li>You can use {@link Url#setConnNum} to specify connection number for each ip and port.
+     *      <li>You can use {@link Url#setConnWarmup} to specify whether need warmup all connections for the first time you call this method.
+     *    </ul>
+     * <li>You should use {@link #closeConnection(Url url)} to close it if you want.
+     * </ol>
      *
-     * @param url target url
-     * @param request request
+     * @param url           target url
+     * @param request       request
      * @param timeoutMillis timeout in millisecond
      * @return RpcResponseFuture
      */
     RpcResponseFuture invokeWithFuture(final Url url, final Object request, final int timeoutMillis)
-                                                                                                    throws RemotingException,
-                                                                                                    InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Future invocation with a {@link InvokeContext}, common api notice please see {@link #invokeWithFuture(Url, Object, int)}
      *
-     * @param url target url
-     * @param request request
+     * @param url           target url
+     * @param request       request
      * @param invokeContext invoke context
      * @param timeoutMillis timeout in millis
      * @return RpcResponseFuture
      */
     RpcResponseFuture invokeWithFuture(final Url url, final Object request,
                                        final InvokeContext invokeContext, final int timeoutMillis)
-                                                                                                  throws RemotingException,
-                                                                                                  InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Future invocation using a {@link Connection} <br>
      * You can get result use the returned {@link RpcResponseFuture}.
      * <p>
      * Notice:<br>
-     *   <b>DO NOT modify the request object concurrently when this method is called.</b>
+     * <b>DO NOT modify the request object concurrently when this method is called.</b>
      *
-     * @param conn target connection
-     * @param request request
+     * @param conn          target connection
+     * @param request       request
      * @param timeoutMillis timeout in millis
      * @return RpcResponseFuture
      */
@@ -317,50 +317,50 @@ public interface BoltClient extends Configurable, LifeCycle {
     /**
      * Future invocation with a {@link InvokeContext}, common api notice please see {@link #invokeWithFuture(Connection, Object, int)}
      *
-     * @param conn target connection
-     * @param request request
+     * @param conn          target connection
+     * @param request       request
      * @param invokeContext context
      * @param timeoutMillis timeout millisecond
      * @return RpcResponseFuture
      */
     RpcResponseFuture invokeWithFuture(final Connection conn, final Object request,
                                        final InvokeContext invokeContext, int timeoutMillis)
-                                                                                            throws RemotingException;
+            throws RemotingException;
 
     /**
      * Callback invocation using a string address, address format example - 127.0.0.1:12200?key1=value1&key2=value2 <br>
      * You can specify an implementation of {@link InvokeCallback} to get the result.
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
-     *   <li>When do invocation, use the string address to find a available connection, if none then create one.</li>
-     *      <ul>
-     *        <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
-     *      </ul>
-     *   <li>You should use {@link #closeConnection(String addr)} to close it if you want.
-     *   </ol>
+     * tice:<br>
+     * <ol>
+     * <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
+     * <li>When do invocation, use the string address to find a available connection, if none then create one.</li>
+     *    <ul>
+     *      <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
+     *    </ul>
+     * <li>You should use {@link #closeConnection(String addr)} to close it if you want.
+     * </ol>
      *
-     * @param addr target address
-     * @param request request
+     * @param addr           target address
+     * @param request        request
      * @param invokeCallback callback
-     * @param timeoutMillis timeout in millisecond
+     * @param timeoutMillis  timeout in millisecond
      */
     void invokeWithCallback(final String addr, final Object request,
                             final InvokeCallback invokeCallback, final int timeoutMillis)
-                                                                                         throws RemotingException,
-                                                                                         InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Callback invocation with a {@link InvokeContext}, common api notice please see {@link #invokeWithCallback(String, Object, InvokeCallback, int)}
      *
-     * @param addr target address
-     * @param request request
-     * @param invokeContext context
+     * @param addr           target address
+     * @param request        request
+     * @param invokeContext  context
      * @param invokeCallback callback
-     * @param timeoutMillis timeout in millisecond
+     * @param timeoutMillis  timeout in millisecond
      */
     void invokeWithCallback(final String addr, final Object request,
                             final InvokeContext invokeContext, final InvokeCallback invokeCallback,
@@ -370,66 +370,66 @@ public interface BoltClient extends Configurable, LifeCycle {
      * Callback invocation using a parsed {@link Url} <br>
      * You can specify an implementation of {@link InvokeCallback} to get the result.
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
-     *   <li>When do invocation, use the parsed {@link Url} to find a available connection, if none then create one.</li>
-     *      <ul>
-     *        <li>You can use {@link Url#setConnectTimeout} to specify connection timeout, time unit is milliseconds.
-     *        <li>You can use {@link Url#setConnNum} to specify connection number for each ip and port.
-     *        <li>You can use {@link Url#setConnWarmup} to specify whether need warmup all connections for the first time you call this method.
-     *      </ul>
-     *   <li>You should use {@link #closeConnection(Url url)} to close it if you want.
-     *   </ol>
+     * tice:<br>
+     * <ol>
+     * <li><b>DO NOT modify the request object concurrently when this method is called.</b></li>
+     * <li>When do invocation, use the parsed {@link Url} to find a available connection, if none then create one.</li>
+     *    <ul>
+     *      <li>You can use {@link Url#setConnectTimeout} to specify connection timeout, time unit is milliseconds.
+     *      <li>You can use {@link Url#setConnNum} to specify connection number for each ip and port.
+     *      <li>You can use {@link Url#setConnWarmup} to specify whether need warmup all connections for the first time you call this method.
+     *    </ul>
+     * <li>You should use {@link #closeConnection(Url url)} to close it if you want.
+     * </ol>
      *
-     * @param url target url
-     * @param request request
+     * @param url            target url
+     * @param request        request
      * @param invokeCallback callback
-     * @param timeoutMillis timeout in millisecond
+     * @param timeoutMillis  timeout in millisecond
      */
     void invokeWithCallback(final Url url, final Object request,
                             final InvokeCallback invokeCallback, final int timeoutMillis)
-                                                                                         throws RemotingException,
-                                                                                         InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Callback invocation with a {@link InvokeContext}, common api notice please see {@link #invokeWithCallback(Url, Object, InvokeCallback, int)}
      *
-     * @param url target url
-     * @param request request
-     * @param invokeContext context
+     * @param url            target url
+     * @param request        request
+     * @param invokeContext  context
      * @param invokeCallback callback
-     * @param timeoutMillis timeout in millisecond
+     * @param timeoutMillis  timeout in millisecond
      */
     void invokeWithCallback(final Url url, final Object request, final InvokeContext invokeContext,
                             final InvokeCallback invokeCallback, final int timeoutMillis)
-                                                                                         throws RemotingException,
-                                                                                         InterruptedException;
+            throws RemotingException,
+            InterruptedException;
 
     /**
      * Callback invocation using a {@link Connection} <br>
      * You can specify an implementation of {@link InvokeCallback} to get the result.
      * <p>
      * Notice:<br>
-     *   <b>DO NOT modify the request object concurrently when this method is called.</b>
+     * <b>DO NOT modify the request object concurrently when this method is called.</b>
      *
-     * @param conn target connection
-     * @param request request
+     * @param conn           target connection
+     * @param request        request
      * @param invokeCallback callback
-     * @param timeoutMillis timeout in millisecond
+     * @param timeoutMillis  timeout in millisecond
      */
     void invokeWithCallback(final Connection conn, final Object request,
                             final InvokeCallback invokeCallback, final int timeoutMillis)
-                                                                                         throws RemotingException;
+            throws RemotingException;
 
     /**
      * Callback invocation with a {@link InvokeContext}, common api notice please see {@link #invokeWithCallback(Connection, Object, InvokeCallback, int)}
      *
-     * @param conn target connection
-     * @param request request
-     * @param invokeContext invoke context
+     * @param conn           target connection
+     * @param request        request
+     * @param invokeContext  invoke context
      * @param invokeCallback callback
-     * @param timeoutMillis timeout in millisecond
+     * @param timeoutMillis  timeout in millisecond
      */
     void invokeWithCallback(final Connection conn, final Object request,
                             final InvokeContext invokeContext, final InvokeCallback invokeCallback,
@@ -438,7 +438,7 @@ public interface BoltClient extends Configurable, LifeCycle {
     /**
      * Add processor to process connection event.
      *
-     * @param type connection event type
+     * @param type      connection event type
      * @param processor connection event process
      */
     void addConnectionEventProcessor(ConnectionEventType type, ConnectionEventProcessor processor);
@@ -452,32 +452,32 @@ public interface BoltClient extends Configurable, LifeCycle {
      * Create a stand alone connection using ip and port. <br>
      * <p>
      * Notice:<br>
-     *   <li>Each time you call this method, will create a new connection.
-     *   <li>Bolt will not control this connection.
-     *   <li>You should use {@link #closeStandaloneConnection} to close it.
+     * <li>Each time you call this method, will create a new connection.
+     * <li>Bolt will not control this connection.
+     * <li>You should use {@link #closeStandaloneConnection} to close it.
      *
-     * @param ip ip
-     * @param port port
+     * @param ip             ip
+     * @param port           port
      * @param connectTimeout timeout in millisecond
      */
     Connection createStandaloneConnection(String ip, int port, int connectTimeout)
-                                                                                  throws RemotingException;
+            throws RemotingException;
 
     /**
      * Create a stand alone connection using address, address format example - 127.0.0.1:12200 <br>
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li>Each time you can this method, will create a new connection.
-     *   <li>Bolt will not control this connection.
-     *   <li>You should use {@link #closeStandaloneConnection} to close it.
-     *   </ol>
+     * tice:<br>
+     * <ol>
+     * <li>Each time you can this method, will create a new connection.
+     * <li>Bolt will not control this connection.
+     * <li>You should use {@link #closeStandaloneConnection} to close it.
+     * </ol>
      *
-     * @param address target address
+     * @param address        target address
      * @param connectTimeout timeout in millisecond
      */
     Connection createStandaloneConnection(String address, int connectTimeout)
-                                                                             throws RemotingException;
+            throws RemotingException;
 
     /**
      * Close a standalone connection
@@ -489,38 +489,39 @@ public interface BoltClient extends Configurable, LifeCycle {
     /**
      * Get a connection using address, address format example - 127.0.0.1:12200?key1=value1&key2=value2 <br>
      * <p>
-     * Notice:<br>
-     *   <ol>
-     *   <li>Get a connection, if none then create.</li>
-     *      <ul>
-     *        <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
-     *        <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
-     *      </ul>
-     *   <li>Bolt will control this connection in {@link ConnectionPool}
-     *   <li>You should use {@link #closeConnection(String addr)} to close it.
-     *   </ol>
-     * @param addr target address
+     * tice:<br>
+     * <ol>
+     * <li>Get a connection, if none then create.</li>
+     *    <ul>
+     *      <li>You can use {@link RpcConfigs#CONNECT_TIMEOUT_KEY} to specify connection timeout, time unit is milliseconds, e.g [127.0.0.1:12200?_CONNECTTIMEOUT=3000]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_NUM_KEY} to specify connection number for each ip and port, e.g [127.0.0.1:12200?_CONNECTIONNUM=30]
+     *      <li>You can use {@link RpcConfigs#CONNECTION_WARMUP_KEY} to specify whether need warmup all connections for the first time you call this method, e.g [127.0.0.1:12200?_CONNECTIONWARMUP=false]
+     *    </ul>
+     * <li>Bolt will control this connection in {@link ConnectionPool}
+     * <li>You should use {@link #closeConnection(String addr)} to close it.
+     * </ol>
+     *
+     * @param addr           target address
      * @param connectTimeout this is prior to url args {@link RpcConfigs#CONNECT_TIMEOUT_KEY}
      */
     Connection getConnection(String addr, int connectTimeout) throws RemotingException,
-                                                             InterruptedException;
+            InterruptedException;
 
     /**
      * Get a connection using a {@link Url}.<br>
      * <p>
-     * Notice:
-     *   <ol>
-     *   <li>Get a connection, if none then create.
-     *   <li>Bolt will control this connection in {@link com.alipay.remoting.ConnectionPool}
-     *   <li>You should use {@link #closeConnection(Url url)} to close it.
-     *   </ol>
+     * tice:
+     * <ol>
+     * <li>Get a connection, if none then create.
+     * <li>Bolt will control this connection in {@link com.alipay.remoting.ConnectionPool}
+     * <li>You should use {@link #closeConnection(Url url)} to close it.
+     * </ol>
      *
-     * @param url target url
+     * @param url            target url
      * @param connectTimeout this is prior to url args {@link RpcConfigs#CONNECT_TIMEOUT_KEY}
      */
     Connection getConnection(Url url, int connectTimeout) throws RemotingException,
-                                                         InterruptedException;
+            InterruptedException;
 
     /**
      * get all connections managed by rpc client

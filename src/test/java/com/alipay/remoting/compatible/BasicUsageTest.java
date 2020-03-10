@@ -16,19 +16,6 @@
  */
 package com.alipay.remoting.compatible;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.remoting.Connection;
 import com.alipay.remoting.ConnectionEventType;
 import com.alipay.remoting.InvokeCallback;
@@ -36,43 +23,49 @@ import com.alipay.remoting.ProtocolManager;
 import com.alipay.remoting.exception.RemotingException;
 import com.alipay.remoting.rpc.RpcClient;
 import com.alipay.remoting.rpc.RpcResponseFuture;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.DISCONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
-import com.alipay.remoting.rpc.common.SimpleClientUserProcessor;
-import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
+import com.alipay.remoting.rpc.common.*;
 import com.alipay.remoting.rpc.protocol.RpcProtocolV2;
 import com.alipay.remoting.util.RemotingUtil;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * basic usage test
- * 
+ * <p>
  * basic usage of rpc client and rpc server
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: BasicUsageTest.java, v 0.1 Apr 6, 2016 8:58:36 PM xiaomin.cxm Exp $
  */
 public class BasicUsageTest {
-    static Logger             logger                    = LoggerFactory
-                                                            .getLogger(BasicUsageTest.class);
+    static Logger logger = LoggerFactory
+            .getLogger(BasicUsageTest.class);
 
-    BoltServer                server;
-    RpcClient                 client;
+    BoltServer server;
+    RpcClient client;
 
-    int                       port                      = PortScan.select();
-    String                    ip                        = "127.0.0.1";
-    String                    addr                      = "127.0.0.1:" + port;
+    int port = PortScan.select();
+    String ip = "127.0.0.1";
+    String addr = "127.0.0.1:" + port;
 
-    int                       invokeTimes               = 5;
+    int invokeTimes = 5;
 
-    SimpleServerUserProcessor serverUserProcessor       = new SimpleServerUserProcessor();
-    SimpleClientUserProcessor clientUserProcessor       = new SimpleClientUserProcessor();
-    CONNECTEventProcessor     clientConnectProcessor    = new CONNECTEventProcessor();
-    CONNECTEventProcessor     serverConnectProcessor    = new CONNECTEventProcessor();
-    DISCONNECTEventProcessor  clientDisConnectProcessor = new DISCONNECTEventProcessor();
-    DISCONNECTEventProcessor  serverDisConnectProcessor = new DISCONNECTEventProcessor();
+    SimpleServerUserProcessor serverUserProcessor = new SimpleServerUserProcessor();
+    SimpleClientUserProcessor clientUserProcessor = new SimpleClientUserProcessor();
+    CONNECTEventProcessor clientConnectProcessor = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
+    DISCONNECTEventProcessor clientDisConnectProcessor = new DISCONNECTEventProcessor();
+    DISCONNECTEventProcessor serverDisConnectProcessor = new DISCONNECTEventProcessor();
 
     @Before
     public void init() {

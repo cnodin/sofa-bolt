@@ -18,38 +18,45 @@ package com.alipay.remoting;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-/** 
+/**
+ *
  * Invoke context
  *
- * @author tsui 
+ * @author tsui
  * @version $Id: InvokeContext.java, v 0.1 2016-07-21 15:44 tsui Exp $
  */
 public class InvokeContext {
     // ~~~ invoke context keys of client side
-    public final static String                CLIENT_LOCAL_IP        = "bolt.client.local.ip";
-    public final static String                CLIENT_LOCAL_PORT      = "bolt.client.local.port";
-    public final static String                CLIENT_REMOTE_IP       = "bolt.client.remote.ip";
-    public final static String                CLIENT_REMOTE_PORT     = "bolt.client.remote.port";
-    /** time consumed during connection creating, this is a timespan */
-    public final static String                CLIENT_CONN_CREATETIME = "bolt.client.conn.createtime";
+    public final static String CLIENT_LOCAL_IP = "bolt.client.local.ip";
+    public final static String CLIENT_LOCAL_PORT = "bolt.client.local.port";
+    public final static String CLIENT_REMOTE_IP = "bolt.client.remote.ip";
+    public final static String CLIENT_REMOTE_PORT = "bolt.client.remote.port";
+    /**
+     * time consumed during connection creating, this is a timespan
+     */
+    public final static String CLIENT_CONN_CREATETIME = "bolt.client.conn.createtime";
 
     // ~~~ invoke context keys of server side
-    public final static String                SERVER_LOCAL_IP        = "bolt.server.local.ip";
-    public final static String                SERVER_LOCAL_PORT      = "bolt.server.local.port";
-    public final static String                SERVER_REMOTE_IP       = "bolt.server.remote.ip";
-    public final static String                SERVER_REMOTE_PORT     = "bolt.server.remote.port";
+    public final static String SERVER_LOCAL_IP = "bolt.server.local.ip";
+    public final static String SERVER_LOCAL_PORT = "bolt.server.local.port";
+    public final static String SERVER_REMOTE_IP = "bolt.server.remote.ip";
+    public final static String SERVER_REMOTE_PORT = "bolt.server.remote.port";
 
     // ~~~ invoke context keys of bolt client and server side
-    public final static String                BOLT_INVOKE_REQUEST_ID = "bolt.invoke.request.id";
-    /** time consumed start from the time when request arrive, to the time when request be processed, this is a timespan */
-    public final static String                BOLT_PROCESS_WAIT_TIME = "bolt.invoke.wait.time";
-    public final static String                BOLT_CUSTOM_SERIALIZER = "bolt.invoke.custom.serializer";
-    public final static String                BOLT_CRC_SWITCH        = "bolt.invoke.crc.switch";
+    public final static String BOLT_INVOKE_REQUEST_ID = "bolt.invoke.request.id";
+    /**
+     * time consumed start from the time when request arrive, to the time when request be processed, this is a timespan
+     */
+    public final static String BOLT_PROCESS_WAIT_TIME = "bolt.invoke.wait.time";
+    public final static String BOLT_CUSTOM_SERIALIZER = "bolt.invoke.custom.serializer";
+    public final static String BOLT_CRC_SWITCH = "bolt.invoke.crc.switch";
 
     // ~~~ constants
-    public final static int                   INITIAL_SIZE           = 8;
+    public final static int INITIAL_SIZE = 8;
 
-    /** context */
+    /**
+     * context
+     */
     private ConcurrentHashMap<String, Object> context;
 
     /**
@@ -92,7 +99,7 @@ public class InvokeContext {
 
     /**
      * get and use default if not found
-     * 
+     *
      * @param key
      * @param defaultIfNotFound
      * @param <T>

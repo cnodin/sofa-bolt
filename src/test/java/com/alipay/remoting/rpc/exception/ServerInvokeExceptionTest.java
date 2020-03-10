@@ -16,6 +16,11 @@
  */
 package com.alipay.remoting.rpc.exception;
 
+import com.alipay.remoting.Connection;
+import com.alipay.remoting.ConnectionEventType;
+import com.alipay.remoting.exception.RemotingException;
+import com.alipay.remoting.rpc.RpcClient;
+import com.alipay.remoting.rpc.common.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,43 +28,31 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alipay.remoting.Connection;
-import com.alipay.remoting.ConnectionEventType;
-import com.alipay.remoting.exception.RemotingException;
-import com.alipay.remoting.rpc.RpcClient;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.DISCONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
-import com.alipay.remoting.rpc.common.SimpleClientUserProcessor;
-import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
-
 /**
  * Test rpc server invoke exception
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: ServerInvokeExceptionTest.java, v 0.1 Apr 14, 2016 10:00:48 AM xiaomin.cxm Exp $
  */
 public class ServerInvokeExceptionTest {
-    static Logger             logger                    = LoggerFactory
-                                                            .getLogger(ServerInvokeExceptionTest.class);
+    static Logger logger = LoggerFactory
+            .getLogger(ServerInvokeExceptionTest.class);
 
-    BoltServer                server;
-    RpcClient                 client;
+    BoltServer server;
+    RpcClient client;
 
-    int                       port                      = PortScan.select();
-    String                    ip                        = "127.0.0.1";
-    String                    addr                      = "127.0.0.1:" + port;
+    int port = PortScan.select();
+    String ip = "127.0.0.1";
+    String addr = "127.0.0.1:" + port;
 
-    int                       invokeTimes               = 1;
+    int invokeTimes = 1;
 
-    SimpleServerUserProcessor serverUserProcessor       = new SimpleServerUserProcessor();
-    SimpleClientUserProcessor clientUserProcessor       = new SimpleClientUserProcessor();
-    CONNECTEventProcessor     clientConnectProcessor    = new CONNECTEventProcessor();
-    CONNECTEventProcessor     serverConnectProcessor    = new CONNECTEventProcessor();
-    DISCONNECTEventProcessor  clientDisConnectProcessor = new DISCONNECTEventProcessor();
-    DISCONNECTEventProcessor  serverDisConnectProcessor = new DISCONNECTEventProcessor();
+    SimpleServerUserProcessor serverUserProcessor = new SimpleServerUserProcessor();
+    SimpleClientUserProcessor clientUserProcessor = new SimpleClientUserProcessor();
+    CONNECTEventProcessor clientConnectProcessor = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
+    DISCONNECTEventProcessor clientDisConnectProcessor = new DISCONNECTEventProcessor();
+    DISCONNECTEventProcessor serverDisConnectProcessor = new DISCONNECTEventProcessor();
 
     @Before
     public void init() {

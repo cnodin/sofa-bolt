@@ -17,7 +17,6 @@
 package com.alipay.remoting;
 
 import com.alipay.remoting.util.RemotingUtil;
-
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 

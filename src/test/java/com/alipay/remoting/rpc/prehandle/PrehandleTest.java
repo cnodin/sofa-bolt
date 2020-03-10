@@ -16,12 +16,13 @@
  */
 package com.alipay.remoting.rpc.prehandle;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
+import com.alipay.remoting.ConnectionEventType;
+import com.alipay.remoting.InvokeCallback;
+import com.alipay.remoting.exception.RemotingException;
+import com.alipay.remoting.rpc.BasicUsageTest;
+import com.alipay.remoting.rpc.RpcClient;
+import com.alipay.remoting.rpc.RpcResponseFuture;
+import com.alipay.remoting.rpc.common.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,44 +30,37 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alipay.remoting.ConnectionEventType;
-import com.alipay.remoting.InvokeCallback;
-import com.alipay.remoting.exception.RemotingException;
-import com.alipay.remoting.rpc.BasicUsageTest;
-import com.alipay.remoting.rpc.RpcClient;
-import com.alipay.remoting.rpc.RpcResponseFuture;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.DISCONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
-import com.alipay.remoting.rpc.common.SimpleClientUserProcessor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * test pre handle usage of UserProcessor
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: PrehandleTest.java, v 0.1 Jan 7, 2016 1:49:05 PM xiaomin.cxm Exp $
  */
 public class PrehandleTest {
-    static Logger             logger                    = LoggerFactory
-                                                            .getLogger(BasicUsageTest.class);
+    static Logger logger = LoggerFactory
+            .getLogger(BasicUsageTest.class);
 
-    BoltServer                server;
-    RpcClient                 client;
+    BoltServer server;
+    RpcClient client;
 
-    int                       port                      = PortScan.select();
-    String                    ip                        = "127.0.0.1";
-    String                    addr                      = "127.0.0.1:" + port;
+    int port = PortScan.select();
+    String ip = "127.0.0.1";
+    String addr = "127.0.0.1:" + port;
 
-    int                       invokeTimes               = 5;
+    int invokeTimes = 5;
 
-    PreHandleUserProcessor    serverUserProcessor       = new PreHandleUserProcessor();
-    SimpleClientUserProcessor clientUserProcessor       = new SimpleClientUserProcessor();
-    CONNECTEventProcessor     clientConnectProcessor    = new CONNECTEventProcessor();
-    CONNECTEventProcessor     serverConnectProcessor    = new CONNECTEventProcessor();
-    DISCONNECTEventProcessor  clientDisConnectProcessor = new DISCONNECTEventProcessor();
-    DISCONNECTEventProcessor  serverDisConnectProcessor = new DISCONNECTEventProcessor();
+    PreHandleUserProcessor serverUserProcessor = new PreHandleUserProcessor();
+    SimpleClientUserProcessor clientUserProcessor = new SimpleClientUserProcessor();
+    CONNECTEventProcessor clientConnectProcessor = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
+    DISCONNECTEventProcessor clientDisConnectProcessor = new DISCONNECTEventProcessor();
+    DISCONNECTEventProcessor serverDisConnectProcessor = new DISCONNECTEventProcessor();
 
     @Before
     public void init() {

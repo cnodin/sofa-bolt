@@ -16,20 +16,13 @@
  */
 package com.alipay.remoting.rpc;
 
-import com.alipay.remoting.CommandFactory;
-import com.alipay.remoting.Connection;
-import com.alipay.remoting.DefaultConnectionManager;
-import com.alipay.remoting.InvokeCallback;
-import com.alipay.remoting.InvokeContext;
-import com.alipay.remoting.RemotingAddressParser;
-import com.alipay.remoting.RemotingCommand;
-import com.alipay.remoting.Url;
+import com.alipay.remoting.*;
 import com.alipay.remoting.exception.RemotingException;
 import com.alipay.remoting.util.RemotingUtil;
 
 /**
  * Rpc server remoting
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: RpcServerRemoting.java, v 0.1 Apr 14, 2016 12:00:39 PM xiaomin.cxm Exp $
  */
@@ -56,12 +49,12 @@ public class RpcServerRemoting extends RpcRemoting {
      */
     @Override
     public Object invokeSync(Url url, Object request, InvokeContext invokeContext, int timeoutMillis)
-                                                                                                     throws RemotingException,
-                                                                                                     InterruptedException {
+            throws RemotingException,
+            InterruptedException {
         Connection conn = this.connectionManager.get(url.getUniqueKey());
         if (null == conn) {
             throw new RemotingException("Client address [" + url.getUniqueKey()
-                                        + "] not connected yet!");
+                    + "] not connected yet!");
         }
         this.connectionManager.check(conn);
         return this.invokeSync(conn, request, invokeContext, timeoutMillis);
@@ -72,11 +65,11 @@ public class RpcServerRemoting extends RpcRemoting {
      */
     @Override
     public void oneway(Url url, Object request, InvokeContext invokeContext)
-                                                                            throws RemotingException {
+            throws RemotingException {
         Connection conn = this.connectionManager.get(url.getUniqueKey());
         if (null == conn) {
             throw new RemotingException("Client address [" + url.getOriginUrl()
-                                        + "] not connected yet!");
+                    + "] not connected yet!");
         }
         this.connectionManager.check(conn);
         this.oneway(conn, request, invokeContext);
@@ -91,7 +84,7 @@ public class RpcServerRemoting extends RpcRemoting {
         Connection conn = this.connectionManager.get(url.getUniqueKey());
         if (null == conn) {
             throw new RemotingException("Client address [" + url.getUniqueKey()
-                                        + "] not connected yet!");
+                    + "] not connected yet!");
         }
         this.connectionManager.check(conn);
         return this.invokeWithFuture(conn, request, invokeContext, timeoutMillis);
@@ -103,11 +96,11 @@ public class RpcServerRemoting extends RpcRemoting {
     @Override
     public void invokeWithCallback(Url url, Object request, InvokeContext invokeContext,
                                    InvokeCallback invokeCallback, int timeoutMillis)
-                                                                                    throws RemotingException {
+            throws RemotingException {
         Connection conn = this.connectionManager.get(url.getUniqueKey());
         if (null == conn) {
             throw new RemotingException("Client address [" + url.getUniqueKey()
-                                        + "] not connected yet!");
+                    + "] not connected yet!");
         }
         this.connectionManager.check(conn);
         this.invokeWithCallback(conn, request, invokeContext, invokeCallback, timeoutMillis);
@@ -118,13 +111,13 @@ public class RpcServerRemoting extends RpcRemoting {
                                            Connection connection) {
         if (null != invokeContext) {
             invokeContext.putIfAbsent(InvokeContext.SERVER_REMOTE_IP,
-                RemotingUtil.parseRemoteIP(connection.getChannel()));
+                    RemotingUtil.parseRemoteIP(connection.getChannel()));
             invokeContext.putIfAbsent(InvokeContext.SERVER_REMOTE_PORT,
-                RemotingUtil.parseRemotePort(connection.getChannel()));
+                    RemotingUtil.parseRemotePort(connection.getChannel()));
             invokeContext.putIfAbsent(InvokeContext.SERVER_LOCAL_IP,
-                RemotingUtil.parseLocalIP(connection.getChannel()));
+                    RemotingUtil.parseLocalIP(connection.getChannel()));
             invokeContext.putIfAbsent(InvokeContext.SERVER_LOCAL_PORT,
-                RemotingUtil.parseLocalPort(connection.getChannel()));
+                    RemotingUtil.parseLocalPort(connection.getChannel()));
             invokeContext.putIfAbsent(InvokeContext.BOLT_INVOKE_REQUEST_ID, cmd.getId());
         }
     }

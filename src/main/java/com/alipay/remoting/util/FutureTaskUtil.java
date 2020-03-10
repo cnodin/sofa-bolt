@@ -16,9 +16,9 @@
  */
 package com.alipay.remoting.util;
 
-import java.util.concurrent.ExecutionException;
-
 import org.slf4j.Logger;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Utils for future task
@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 public class FutureTaskUtil {
     /**
      * get the result of a future task
-     *
+     * <p>
      * Notice: the run method of this task should have been called at first.
      *
      * @param task

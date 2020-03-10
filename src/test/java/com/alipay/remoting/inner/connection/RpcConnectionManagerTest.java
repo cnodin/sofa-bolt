@@ -16,27 +16,7 @@
  */
 package com.alipay.remoting.inner.connection;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.alipay.remoting.DefaultClientConnectionManager;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alipay.remoting.Connection;
-import com.alipay.remoting.ConnectionEventHandler;
-import com.alipay.remoting.ConnectionEventListener;
-import com.alipay.remoting.ConnectionEventType;
-import com.alipay.remoting.ConnectionSelectStrategy;
-import com.alipay.remoting.DefaultConnectionManager;
-import com.alipay.remoting.RandomSelectStrategy;
-import com.alipay.remoting.RemotingAddressParser;
-import com.alipay.remoting.Url;
+import com.alipay.remoting.*;
 import com.alipay.remoting.connection.ConnectionFactory;
 import com.alipay.remoting.exception.RemotingException;
 import com.alipay.remoting.rpc.RpcAddressParser;
@@ -46,43 +26,53 @@ import com.alipay.remoting.rpc.RpcConnectionFactory;
 import com.alipay.remoting.rpc.common.BoltServer;
 import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
 import com.alipay.remoting.rpc.protocol.UserProcessor;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Rpc connection manager test
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: RpcConnectionManagerTest.java, v 0.1 Mar 9, 2016 8:09:44 PM xiaomin.cxm Exp $
  */
 public class RpcConnectionManagerTest {
-    private final static Logger                         logger                   = LoggerFactory
-                                                                                     .getLogger(RpcConnectionManagerTest.class);
+    private final static Logger logger = LoggerFactory
+            .getLogger(RpcConnectionManagerTest.class);
 
-    private ConcurrentHashMap<String, UserProcessor<?>> userProcessors           = new ConcurrentHashMap<String, UserProcessor<?>>();
+    private ConcurrentHashMap<String, UserProcessor<?>> userProcessors = new ConcurrentHashMap<String, UserProcessor<?>>();
 
-    private DefaultClientConnectionManager              cm;
-    private ConnectionSelectStrategy                    connectionSelectStrategy = new RandomSelectStrategy(
-                                                                                     null);
-    private RemotingAddressParser                       addressParser            = new RpcAddressParser();
-    private ConnectionFactory                           connectionFactory        = new RpcConnectionFactory(
-                                                                                     userProcessors,
-                                                                                     new RpcClient());
-    private ConnectionEventHandler                      connectionEventHandler   = new RpcConnectionEventHandler();
-    private ConnectionEventListener                     connectionEventListener  = new ConnectionEventListener();
+    private DefaultClientConnectionManager cm;
+    private ConnectionSelectStrategy connectionSelectStrategy = new RandomSelectStrategy(
+            null);
+    private RemotingAddressParser addressParser = new RpcAddressParser();
+    private ConnectionFactory connectionFactory = new RpcConnectionFactory(
+            userProcessors,
+            new RpcClient());
+    private ConnectionEventHandler connectionEventHandler = new RpcConnectionEventHandler();
+    private ConnectionEventListener connectionEventListener = new ConnectionEventListener();
 
-    private BoltServer                                  server;
+    private BoltServer server;
 
-    private String                                      ip                       = "127.0.0.1";
-    private int                                         port                     = 1111;
-    private String                                      addr                     = ip + ":" + port;
-    private String                                      poolKey                  = ip + ":" + port;
-    private Url                                         url                      = new Url(ip, port);
+    private String ip = "127.0.0.1";
+    private int port = 1111;
+    private String addr = ip + ":" + port;
+    private String poolKey = ip + ":" + port;
+    private Url url = new Url(ip, port);
 
-    CONNECTEventProcessor                               serverConnectProcessor   = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
 
     @Before
     public void init() {
         cm = new DefaultClientConnectionManager(connectionSelectStrategy, connectionFactory,
-            connectionEventHandler, connectionEventListener);
+                connectionEventHandler, connectionEventListener);
         cm.setAddressParser(addressParser);
         cm.startup();
         server = new BoltServer(port);
@@ -344,7 +334,7 @@ public class RpcConnectionManagerTest {
 
     @Test
     public void testConnectionCloseAndConnectionManagerRemove() throws RemotingException,
-                                                               InterruptedException {
+            InterruptedException {
         final Url addr = new Url(ip, port);
 
         this.addressParser.initUrlArgs(addr);

@@ -16,20 +16,19 @@
  */
 package com.alipay.remoting.inner.connection;
 
-import java.lang.ref.SoftReference;
-import java.lang.reflect.Constructor;
-
+import com.alipay.remoting.Url;
+import com.alipay.remoting.rpc.RpcAddressParser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alipay.remoting.Url;
-import com.alipay.remoting.rpc.RpcAddressParser;
+import java.lang.ref.SoftReference;
+import java.lang.reflect.Constructor;
 
 /**
  * Test basic usage of url
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: UrlTest.java, v 0.1 Apr 18, 2016 7:22:01 PM xiaomin.cxm Exp $
  */
@@ -75,7 +74,7 @@ public class UrlTest {
     public void testGC() throws Exception {
         String url = "localhost:3333?k1=v1&k2=v2";
 
-        Constructor con = Url.class.getDeclaredConstructor(new Class[] { String.class });
+        Constructor con = Url.class.getDeclaredConstructor(new Class[]{String.class});
         con.setAccessible(true);
 
         long start = System.currentTimeMillis();

@@ -36,7 +36,7 @@ public interface Configurable {
      * created. Use a value of {@code null} to remove a previous set {@link BoltOption}.
      *
      * @param option target option
-     * @param value option value, null to remove the previous option
+     * @param value  option value, null to remove the previous option
      * @return Configurable instance
      */
     <T> Configurable option(BoltOption<T> option, T value);

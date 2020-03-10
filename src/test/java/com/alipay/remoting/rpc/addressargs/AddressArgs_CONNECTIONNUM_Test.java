@@ -16,19 +16,6 @@
  */
 package com.alipay.remoting.rpc.addressargs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.remoting.ConnectionEventType;
 import com.alipay.remoting.InvokeCallback;
 import com.alipay.remoting.Url;
@@ -36,39 +23,45 @@ import com.alipay.remoting.exception.RemotingException;
 import com.alipay.remoting.rpc.RpcAddressParser;
 import com.alipay.remoting.rpc.RpcClient;
 import com.alipay.remoting.rpc.RpcResponseFuture;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.DISCONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
-import com.alipay.remoting.rpc.common.SimpleClientUserProcessor;
-import com.alipay.remoting.rpc.common.SimpleServerUserProcessor;
+import com.alipay.remoting.rpc.common.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * address args test [_CONNECTIONNUM]
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: AddressArgs_CONNECTIONNUM_Test.java, v 0.1 Feb 17, 2016 2:01:54 PM xiaomin.cxm Exp $
  */
 public class AddressArgs_CONNECTIONNUM_Test {
-    static Logger             logger                    = LoggerFactory
-                                                            .getLogger(AddressArgs_CONNECTIONNUM_Test.class);
+    static Logger logger = LoggerFactory
+            .getLogger(AddressArgs_CONNECTIONNUM_Test.class);
 
-    BoltServer                server;
-    RpcClient                 client;
+    BoltServer server;
+    RpcClient client;
 
-    int                       port                      = PortScan.select();
-    String                    ip                        = "127.0.0.1";
-    String                    addr                      = "127.0.0.1:" + port;
+    int port = PortScan.select();
+    String ip = "127.0.0.1";
+    String addr = "127.0.0.1:" + port;
 
-    int                       invokeTimes               = 5;
+    int invokeTimes = 5;
 
-    SimpleServerUserProcessor serverUserProcessor       = new SimpleServerUserProcessor();
-    SimpleClientUserProcessor clientUserProcessor       = new SimpleClientUserProcessor();
-    CONNECTEventProcessor     clientConnectProcessor    = new CONNECTEventProcessor();
-    CONNECTEventProcessor     serverConnectProcessor    = new CONNECTEventProcessor();
-    DISCONNECTEventProcessor  clientDisConnectProcessor = new DISCONNECTEventProcessor();
-    DISCONNECTEventProcessor  serverDisConnectProcessor = new DISCONNECTEventProcessor();
+    SimpleServerUserProcessor serverUserProcessor = new SimpleServerUserProcessor();
+    SimpleClientUserProcessor clientUserProcessor = new SimpleClientUserProcessor();
+    CONNECTEventProcessor clientConnectProcessor = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
+    DISCONNECTEventProcessor clientDisConnectProcessor = new DISCONNECTEventProcessor();
+    DISCONNECTEventProcessor serverDisConnectProcessor = new DISCONNECTEventProcessor();
 
     @Before
     public void init() {
@@ -117,10 +110,10 @@ public class AddressArgs_CONNECTIONNUM_Test {
                 long end = System.currentTimeMillis();
                 logger.warn("WITH WARMUP, first invoke cost ->" + (end - start));
                 if ((end - start) > expectMaxFirstInvokeTimeDuration
-                    && expectMaxFirstInvokeTimeDuration != -1) {
+                        && expectMaxFirstInvokeTimeDuration != -1) {
                     Assert.fail("Should not reach here, First invoke cost too much time ["
-                                + (end - start) + "ms], expect limit in ["
-                                + expectMaxFirstInvokeTimeDuration + "ms]!");
+                            + (end - start) + "ms], expect limit in ["
+                            + expectMaxFirstInvokeTimeDuration + "ms]!");
                 }
                 if (!type.equals(RequestBody.InvokeType.ONEWAY)) {
                     Assert.assertEquals(ret, RequestBody.DEFAULT_SERVER_RETURN_STR);
@@ -135,9 +128,9 @@ public class AddressArgs_CONNECTIONNUM_Test {
                 client.closeConnection(addr);
                 Thread.sleep(200);// must wait, to wait event finish
                 Assert
-                    .assertEquals(expectConnTimes, serverDisConnectProcessor.getDisConnectTimes());
+                        .assertEquals(expectConnTimes, serverDisConnectProcessor.getDisConnectTimes());
                 Assert
-                    .assertEquals(expectConnTimes, clientDisConnectProcessor.getDisConnectTimes());
+                        .assertEquals(expectConnTimes, clientDisConnectProcessor.getDisConnectTimes());
             } else {
                 Thread.sleep(200);// must wait, to wait event finish
                 Assert.assertTrue(serverConnectProcessor.getConnectTimes() >= expectConnTimes);
@@ -146,9 +139,9 @@ public class AddressArgs_CONNECTIONNUM_Test {
                 client.closeConnection(addr);
                 Thread.sleep(200);// must wait, to wait event finish
                 Assert
-                    .assertTrue(serverDisConnectProcessor.getDisConnectTimes() >= expectConnTimes);
+                        .assertTrue(serverDisConnectProcessor.getDisConnectTimes() >= expectConnTimes);
                 Assert
-                    .assertTrue(clientDisConnectProcessor.getDisConnectTimes() >= expectConnTimes);
+                        .assertTrue(clientDisConnectProcessor.getDisConnectTimes() >= expectConnTimes);
             }
         } catch (RemotingException e) {
             logger.error("Exception caught in sync!", e);
@@ -169,7 +162,7 @@ public class AddressArgs_CONNECTIONNUM_Test {
      * @throws InterruptedException
      */
     private Object doInvoke(RequestBody.InvokeType type, String url) throws RemotingException,
-                                                                    InterruptedException {
+            InterruptedException {
         RequestBody b1 = new RequestBody(1, "hello world");
         Object obj = null;
         if (type.equals(RequestBody.InvokeType.ONEWAY)) {
@@ -233,7 +226,7 @@ public class AddressArgs_CONNECTIONNUM_Test {
     @Test
     public void test_connNum_10_warmup_True_invoke_1times() {
         String url = addr
-                     + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=10&_CONNECTIONWARMUP=true";
+                + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=10&_CONNECTIONWARMUP=true";
         for (RequestBody.InvokeType type : RequestBody.InvokeType.values()) {
             doResetTimes();
             doTest(url, type, 1, 10, -1);
@@ -243,7 +236,7 @@ public class AddressArgs_CONNECTIONNUM_Test {
     @Test
     public void test_connNum_10_warmup_False_invoke_1times() {
         String url = addr
-                     + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=10&_CONNECTIONWARMUP=false";
+                + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=10&_CONNECTIONWARMUP=false";
         for (RequestBody.InvokeType type : RequestBody.InvokeType.values()) {
             doResetTimes();
             doTest(url, type, 1, 1, -1);
@@ -253,7 +246,7 @@ public class AddressArgs_CONNECTIONNUM_Test {
     @Test
     public void test_connNum_1_warmup_True_invoke_1times() {
         String url = addr
-                     + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=1&_CONNECTIONWARMUP=true";
+                + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=1&_CONNECTIONWARMUP=true";
         for (RequestBody.InvokeType type : RequestBody.InvokeType.values()) {
             doResetTimes();
             doTest(url, type, 1, 1, -1);
@@ -263,7 +256,7 @@ public class AddressArgs_CONNECTIONNUM_Test {
     @Test
     public void test_connNum_1_warmup_False_invoke_3times() {
         String url = addr
-                     + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=1&_CONNECTIONWARMUP=false";
+                + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=1&_CONNECTIONWARMUP=false";
         for (RequestBody.InvokeType type : RequestBody.InvokeType.values()) {
             doResetTimes();
             doTest(url, type, 1, 1, -1);
@@ -273,7 +266,7 @@ public class AddressArgs_CONNECTIONNUM_Test {
     @Test
     public void test_connNum_2_warmup_False_invoke_3times() {
         String url = addr
-                     + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=2&_CONNECTIONWARMUP=false";
+                + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=2&_CONNECTIONWARMUP=false";
         for (RequestBody.InvokeType type : RequestBody.InvokeType.values()) {
             doResetTimes();
             doTest(url, type, 1, 1, -1);
@@ -283,7 +276,7 @@ public class AddressArgs_CONNECTIONNUM_Test {
     @Test
     public void test_connNum_2_warmup_True_invoke_3times() {
         String url = addr
-                     + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=2&_CONNECTIONWARMUP=true";
+                + "?_CONNECTTIMEOUT=1000&_TIMEOUT=5000&_CONNECTIONNUM=2&_CONNECTIONWARMUP=true";
         for (RequestBody.InvokeType type : RequestBody.InvokeType.values()) {
             doResetTimes();
             doTest(url, type, 1, 2, -1);

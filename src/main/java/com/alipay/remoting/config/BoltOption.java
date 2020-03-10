@@ -24,7 +24,7 @@ package com.alipay.remoting.config;
 public class BoltOption<T> {
 
     private final String name;
-    private T            defaultValue;
+    private T defaultValue;
 
     protected BoltOption(String name, T defaultValue) {
         this.name = name;

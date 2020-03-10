@@ -16,12 +16,7 @@
  */
 package com.alipay.remoting.rpc.protocol;
 
-import com.alipay.remoting.CommandDecoder;
-import com.alipay.remoting.CommandEncoder;
-import com.alipay.remoting.CommandFactory;
-import com.alipay.remoting.CommandHandler;
-import com.alipay.remoting.HeartbeatTrigger;
-import com.alipay.remoting.Protocol;
+import com.alipay.remoting.*;
 import com.alipay.remoting.rpc.RpcCommandFactory;
 
 /**
@@ -36,7 +31,7 @@ import com.alipay.remoting.rpc.RpcCommandFactory;
  * +                                                                                               +
  * |                               ... ...                                                         |
  * +-----------------------------------------------------------------------------------------------+
- * 
+ * <p>
  * proto: code for protocol
  * type: request/response/request oneway
  * cmdcode: code for remoting command
@@ -45,7 +40,7 @@ import com.alipay.remoting.rpc.RpcCommandFactory;
  * codec: code for codec
  * headerLen: length of header
  * contentLen: length of content
- * 
+ * <p>
  * Response command protocol for v1
  * 0     1     2     3     4           6           8          10           12          14         16
  * +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
@@ -58,19 +53,19 @@ import com.alipay.remoting.rpc.RpcCommandFactory;
  * |                               ... ...                                                         |
  * +-----------------------------------------------------------------------------------------------+
  * respstatus: response status
- * 
+ *
  * @author jiangping
  * @version $Id: RpcProtocol.java, v 0.1 2015-9-28 PM7:04:04 tao Exp $
  */
 public class RpcProtocol implements Protocol {
-    public static final byte PROTOCOL_CODE       = (byte) 1;
-    private static final int REQUEST_HEADER_LEN  = 22;
+    public static final byte PROTOCOL_CODE = (byte) 1;
+    private static final int REQUEST_HEADER_LEN = 22;
     private static final int RESPONSE_HEADER_LEN = 20;
-    private CommandEncoder   encoder;
-    private CommandDecoder   decoder;
+    private CommandEncoder encoder;
+    private CommandDecoder decoder;
     private HeartbeatTrigger heartbeatTrigger;
-    private CommandHandler   commandHandler;
-    private CommandFactory   commandFactory;
+    private CommandHandler commandHandler;
+    private CommandFactory commandFactory;
 
     public RpcProtocol() {
         this.encoder = new RpcCommandEncoder();

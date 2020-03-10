@@ -35,7 +35,7 @@ public abstract class AsyncUserProcessor<T> extends AbstractUserProcessor<T> {
     @Override
     public Object handleRequest(BizContext bizCtx, T request) throws Exception {
         throw new UnsupportedOperationException(
-            "SYNC handle request is unsupported in AsyncUserProcessor!");
+                "SYNC handle request is unsupported in AsyncUserProcessor!");
     }
 
     /**

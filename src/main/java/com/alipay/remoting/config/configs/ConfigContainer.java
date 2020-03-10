@@ -18,7 +18,7 @@ package com.alipay.remoting.config.configs;
 
 /**
  * the interface of a config container
- *
+ * <p>
  * Mainly used to manage config by user api, this is instance related, not globally.
  * That is to say, different remoting instance client or server hold different ConfigContainer.
  *
@@ -28,6 +28,7 @@ package com.alipay.remoting.config.configs;
 public interface ConfigContainer {
     /**
      * check whether a config item of a certain config type exist.
+     *
      * @param configType config types in the config container, different config type can hold the same config item key
      * @param configItem config items in the config container
      * @return exist then return true, not exist return false
@@ -36,9 +37,10 @@ public interface ConfigContainer {
 
     /**
      * try to get config value using config type and config item.
+     *
      * @param configType config types in the config container, different config type can hold the same config item key
      * @param configItem config items in the config container
-     * @param <T> the generics of return value
+     * @param <T>        the generics of return value
      * @return the right value and cast to type T, if no mappings, then return null
      */
     <T> T get(ConfigType configType, ConfigItem configItem);

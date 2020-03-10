@@ -16,9 +16,6 @@
  */
 package com.alipay.remoting.rpc.serializer;
 
-import java.io.UnsupportedEncodingException;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.alipay.remoting.CustomSerializer;
 import com.alipay.remoting.DefaultCustomSerializer;
 import com.alipay.remoting.InvokeContext;
@@ -28,6 +25,9 @@ import com.alipay.remoting.rpc.ResponseCommand;
 import com.alipay.remoting.rpc.protocol.RpcResponseCommand;
 import com.alipay.remoting.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * a custom serialize demo using invoke context
  *
@@ -36,12 +36,12 @@ import com.alipay.remoting.util.StringUtils;
  */
 public class NormalStringCustomSerializer_InvokeContext extends DefaultCustomSerializer {
 
-    private AtomicBoolean      serialFlag        = new AtomicBoolean();
-    private AtomicBoolean      deserialFlag      = new AtomicBoolean();
+    private AtomicBoolean serialFlag = new AtomicBoolean();
+    private AtomicBoolean deserialFlag = new AtomicBoolean();
 
-    public static final String UNIVERSAL_RESP    = "UNIVERSAL RESPONSE";
+    public static final String UNIVERSAL_RESP = "UNIVERSAL RESPONSE";
 
-    public static final String SERIALTYPE_KEY    = "serial.type";
+    public static final String SERIALTYPE_KEY = "serial.type";
     public static final String SERIALTYPE1_value = "SERIAL1";
     public static final String SERIALTYPE2_value = "SERIAL2";
 
@@ -50,7 +50,7 @@ public class NormalStringCustomSerializer_InvokeContext extends DefaultCustomSer
      */
     @Override
     public <T extends ResponseCommand> boolean serializeContent(T response)
-                                                                           throws SerializationException {
+            throws SerializationException {
         serialFlag.set(true);
         RpcResponseCommand rpcResp = (RpcResponseCommand) response;
         String str = (String) rpcResp.getResponseObject();
@@ -69,7 +69,7 @@ public class NormalStringCustomSerializer_InvokeContext extends DefaultCustomSer
     @Override
     public <T extends ResponseCommand> boolean deserializeContent(T response,
                                                                   InvokeContext invokeContext)
-                                                                                              throws DeserializationException {
+            throws DeserializationException {
         deserialFlag.set(true);
         RpcResponseCommand rpcResp = (RpcResponseCommand) response;
 

@@ -16,23 +16,6 @@
  */
 package com.alipay.remoting.rpc.userprocessor.executorselector;
 
-import static com.alipay.remoting.rpc.userprocessor.executorselector.DefaultExecutorSelector.EXECUTOR0;
-import static com.alipay.remoting.rpc.userprocessor.executorselector.DefaultExecutorSelector.EXECUTOR1;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.remoting.Connection;
 import com.alipay.remoting.ConnectionEventType;
 import com.alipay.remoting.CustomSerializerManager;
@@ -40,51 +23,59 @@ import com.alipay.remoting.InvokeCallback;
 import com.alipay.remoting.exception.RemotingException;
 import com.alipay.remoting.rpc.RpcClient;
 import com.alipay.remoting.rpc.RpcResponseFuture;
-import com.alipay.remoting.rpc.common.BoltServer;
-import com.alipay.remoting.rpc.common.CONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.DISCONNECTEventProcessor;
-import com.alipay.remoting.rpc.common.PortScan;
-import com.alipay.remoting.rpc.common.RequestBody;
+import com.alipay.remoting.rpc.common.*;
 import com.alipay.remoting.rpc.protocol.UserProcessor;
 import com.alipay.remoting.util.RemotingUtil;
+import org.junit.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import static com.alipay.remoting.rpc.userprocessor.executorselector.DefaultExecutorSelector.EXECUTOR0;
+import static com.alipay.remoting.rpc.userprocessor.executorselector.DefaultExecutorSelector.EXECUTOR1;
 
 /**
  * basic usage test
- * 
+ * <p>
  * basic usage of rpc client and rpc server using executor selector
- * 
+ *
  * @author xiaomin.cxm
  * @version $Id: BasicUsage_ExecutorSelector_Test.java, v 0.1 Apr 6, 2016 8:58:36 PM xiaomin.cxm Exp $
  */
 public class BasicUsage_ExecutorSelector_Test {
-    static Logger                  logger                    = LoggerFactory
-                                                                 .getLogger(BasicUsage_ExecutorSelector_Test.class);
+    static Logger logger = LoggerFactory
+            .getLogger(BasicUsage_ExecutorSelector_Test.class);
 
-    BoltServer                     server;
-    RpcClient                      client;
+    BoltServer server;
+    RpcClient client;
 
-    int                            port                      = PortScan.select();
-    String                         ip                        = "127.0.0.1";
-    String                         addr                      = "127.0.0.1:" + port;
+    int port = PortScan.select();
+    String ip = "127.0.0.1";
+    String addr = "127.0.0.1:" + port;
 
-    int                            invokeTimes               = 5;
+    int invokeTimes = 5;
 
-    SpecificServerUserProcessor    serverUserProcessor       = new SpecificServerUserProcessor();
-    SpecificClientUserProcessor    clientUserProcessor       = new SpecificClientUserProcessor();
-    CONNECTEventProcessor          clientConnectProcessor    = new CONNECTEventProcessor();
-    CONNECTEventProcessor          serverConnectProcessor    = new CONNECTEventProcessor();
-    DISCONNECTEventProcessor       clientDisConnectProcessor = new DISCONNECTEventProcessor();
-    DISCONNECTEventProcessor       serverDisConnectProcessor = new DISCONNECTEventProcessor();
+    SpecificServerUserProcessor serverUserProcessor = new SpecificServerUserProcessor();
+    SpecificClientUserProcessor clientUserProcessor = new SpecificClientUserProcessor();
+    CONNECTEventProcessor clientConnectProcessor = new CONNECTEventProcessor();
+    CONNECTEventProcessor serverConnectProcessor = new CONNECTEventProcessor();
+    DISCONNECTEventProcessor clientDisConnectProcessor = new DISCONNECTEventProcessor();
+    DISCONNECTEventProcessor serverDisConnectProcessor = new DISCONNECTEventProcessor();
 
-    UserProcessor.ExecutorSelector selector0                 = new DefaultExecutorSelector(
-                                                                 EXECUTOR0);
-    UserProcessor.ExecutorSelector selector1                 = new DefaultExecutorSelector(
-                                                                 EXECUTOR1);
+    UserProcessor.ExecutorSelector selector0 = new DefaultExecutorSelector(
+            EXECUTOR0);
+    UserProcessor.ExecutorSelector selector1 = new DefaultExecutorSelector(
+            EXECUTOR1);
 
     @BeforeClass
     public static void classInit() {
         CustomSerializerManager.registerCustomSerializer(RequestBody.class.getName(),
-            new CustomHeaderSerializer());
+                new CustomHeaderSerializer());
     }
 
     @Before

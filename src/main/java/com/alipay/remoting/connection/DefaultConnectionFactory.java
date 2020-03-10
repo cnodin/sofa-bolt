@@ -18,7 +18,6 @@ package com.alipay.remoting.connection;
 
 import com.alipay.remoting.codec.Codec;
 import com.alipay.remoting.config.ConfigurableInstance;
-
 import io.netty.channel.ChannelHandler;
 
 /**

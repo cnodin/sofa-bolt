@@ -16,27 +16,21 @@
  */
 package com.alipay.remoting.rpc.protocol;
 
-import java.net.InetSocketAddress;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.alipay.remoting.CommandCode;
 import com.alipay.remoting.CommandDecoder;
 import com.alipay.remoting.ResponseStatus;
 import com.alipay.remoting.log.BoltLoggerFactory;
-import com.alipay.remoting.rpc.HeartbeatAckCommand;
-import com.alipay.remoting.rpc.HeartbeatCommand;
-import com.alipay.remoting.rpc.RequestCommand;
-import com.alipay.remoting.rpc.ResponseCommand;
-import com.alipay.remoting.rpc.RpcCommandType;
-
+import com.alipay.remoting.rpc.*;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+import org.slf4j.Logger;
+
+import java.net.InetSocketAddress;
+import java.util.List;
 
 /**
  * Command decoder for Rpc.
- * 
+ *
  * @author jiangping
  * @version $Id: RpcCommandDecoder.java, v 0.1 2015-10-14 PM5:15:26 tao Exp $
  */
@@ -44,11 +38,11 @@ public class RpcCommandDecoder implements CommandDecoder {
 
     private static final Logger logger = BoltLoggerFactory.getLogger("RpcRemoting");
 
-    private int                 lessLen;
+    private int lessLen;
 
     {
         lessLen = RpcProtocol.getResponseHeaderLength() < RpcProtocol.getRequestHeaderLength() ? RpcProtocol
-            .getResponseHeaderLength() : RpcProtocol.getRequestHeaderLength();
+                .getResponseHeaderLength() : RpcProtocol.getRequestHeaderLength();
     }
 
     /**
@@ -180,7 +174,7 @@ public class RpcCommandDecoder implements CommandDecoder {
                             command.setContent(content);
                             command.setResponseTimeMillis(System.currentTimeMillis());
                             command.setResponseHost((InetSocketAddress) ctx.channel()
-                                .remoteAddress());
+                                    .remoteAddress());
                             out.add(command);
                         } else {
                             in.resetReaderIndex();

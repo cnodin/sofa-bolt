@@ -20,6 +20,7 @@ import com.alipay.remoting.CommandCode;
 
 /**
  * Command code for rpc remoting command.
+ *
  * @author jiangping
  * @version $Id: RpcCommandCode.java, v 0.1 2015-9-21 PM5:05:59 tao Exp $
  */

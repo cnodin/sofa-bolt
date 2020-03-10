@@ -16,11 +16,7 @@
  */
 package com.alipay.remoting;
 
-import com.alipay.remoting.config.BoltOption;
-import com.alipay.remoting.config.BoltOptions;
-import com.alipay.remoting.config.ConfigManager;
-import com.alipay.remoting.config.Configurable;
-import com.alipay.remoting.config.ConfigurableInstance;
+import com.alipay.remoting.config.*;
 import com.alipay.remoting.config.configs.ConfigContainer;
 import com.alipay.remoting.config.configs.ConfigItem;
 import com.alipay.remoting.config.configs.ConfigType;
@@ -31,11 +27,11 @@ import com.alipay.remoting.config.switches.GlobalSwitch;
  * @author chengyi (mark.lx@antfin.com) 2018-11-07 15:22
  */
 public abstract class AbstractBoltClient extends AbstractLifeCycle implements BoltClient,
-                                                                  ConfigurableInstance {
+        ConfigurableInstance {
 
-    private final BoltOptions     options;
-    private final ConfigType      configType;
-    private final GlobalSwitch    globalSwitch;
+    private final BoltOptions options;
+    private final ConfigType configType;
+    private final GlobalSwitch globalSwitch;
     private final ConfigContainer configContainer;
 
     public AbstractBoltClient() {

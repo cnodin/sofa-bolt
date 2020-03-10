@@ -50,12 +50,12 @@ public class ConfigManager {
 
     public static int netty_buffer_low_watermark() {
         return getInt(Configs.NETTY_BUFFER_LOW_WATERMARK,
-            Configs.NETTY_BUFFER_LOW_WATERMARK_DEFAULT);
+                Configs.NETTY_BUFFER_LOW_WATERMARK_DEFAULT);
     }
 
     public static int netty_buffer_high_watermark() {
         return getInt(Configs.NETTY_BUFFER_HIGH_WATERMARK,
-            Configs.NETTY_BUFFER_HIGH_WATERMARK_DEFAULT);
+                Configs.NETTY_BUFFER_HIGH_WATERMARK_DEFAULT);
     }
 
     public static boolean netty_epoll() {
@@ -98,7 +98,7 @@ public class ConfigManager {
 
     public static int conn_create_tp_keepalive() {
         return getInt(Configs.CONN_CREATE_TP_KEEPALIVE_TIME,
-            Configs.CONN_CREATE_TP_KEEPALIVE_TIME_DEFAULT);
+                Configs.CONN_CREATE_TP_KEEPALIVE_TIME_DEFAULT);
     }
 
     // ~~~ properties for processor manager
@@ -130,7 +130,7 @@ public class ConfigManager {
 
     public static long conn_monitor_initial_delay() {
         return getLong(Configs.CONN_MONITOR_INITIAL_DELAY,
-            Configs.CONN_MONITOR_INITIAL_DELAY_DEFAULT);
+                Configs.CONN_MONITOR_INITIAL_DELAY_DEFAULT);
     }
 
     public static long conn_monitor_period() {
